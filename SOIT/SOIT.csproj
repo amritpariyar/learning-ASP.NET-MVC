@@ -203,6 +203,17 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Theme\css\font-awesome.css" />
+    <Content Include="Theme\css\font-awesome.min.css" />
+    <Content Include="Theme\css\metisMenu.css" />
+    <Content Include="Theme\css\metisMenu.min.css" />
+    <Content Include="Theme\css\sb-admin-2.css" />
+    <Content Include="Theme\css\sb-admin-2.min.css" />
+    <Content Include="Theme\fonts\fontawesome-webfont.svg" />
+    <Content Include="Theme\js\metisMenu.js" />
+    <Content Include="Theme\js\metisMenu.min.js" />
+    <Content Include="Theme\js\sb-admin-2.js" />
+    <Content Include="Theme\js\sb-admin-2.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -241,6 +252,15 @@
     <Content Include="Views\Home\NotFound.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Role\Create.cshtml" />
+    <Content Include="Views\Shared\_Layout - Copy.cshtml" />
+    <Content Include="Views\Shared\_SidebarPartial.cshtml" />
+    <Content Include="Views\Shared\_TopNav.cshtml" />
+    <Content Include="Theme\css\font-awesome.css.map" />
+    <Content Include="Theme\fonts\fontawesome-webfont.eot" />
+    <Content Include="Theme\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Theme\fonts\fontawesome-webfont.woff" />
+    <Content Include="Theme\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Theme\fonts\FontAwesome.otf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

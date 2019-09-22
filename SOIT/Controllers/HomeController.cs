@@ -8,13 +8,13 @@ namespace SOIT.Controllers
 {
     public class HomeController : Controller
     {
-        [RequestFilter(Roles ="Admin")]        
+        //[RequestFilter(Roles ="Admin")]        
         public ActionResult Index()
         {
             return View();
         }
 
-        [HandleError(View="Error")]
+       // [HandleError(View="Error")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
