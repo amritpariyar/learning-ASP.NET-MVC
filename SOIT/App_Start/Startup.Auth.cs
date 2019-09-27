@@ -58,11 +58,11 @@ namespace SOIT
             //   appId: "",
             //   appSecret: "");
 
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            {
-                ClientId = "68020011526-e877r0s10c8cnr3oda0euspb73171nm3.apps.googleusercontent.com",
-                ClientSecret = "YFAhnOaAY3gTtmFgOHARfyev"
-            });
+            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //{
+            //    ClientId = "",
+            //    ClientSecret = ""
+            //});
         }
     }
 }
