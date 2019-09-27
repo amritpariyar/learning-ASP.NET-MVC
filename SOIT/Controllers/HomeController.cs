@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace SOIT.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         //[RequestFilter(Roles ="Admin")]        

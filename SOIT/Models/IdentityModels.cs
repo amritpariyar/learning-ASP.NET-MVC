@@ -29,5 +29,7 @@ namespace SOIT.Models
         {
             return new ApplicationDbContext();
         }
+
+        //public System.Data.Entity.DbSet<SOIT.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

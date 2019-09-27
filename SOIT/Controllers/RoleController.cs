@@ -10,10 +10,11 @@ namespace SOIT.Controllers
 {
     public class RoleController : Controller
     {
-        ApplicationDbContext context;
+       ApplicationDbContext context;
         public RoleController()
         {
             context = new ApplicationDbContext();
+            
         }
         /// <summary>
         /// Get All Roles
@@ -21,31 +22,30 @@ namespace SOIT.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            var Roles = context.Roles.ToList();
+            var Roles =context.Roles.ToList();
+            //var Roles = context.Roles.ToList();
             return View(Roles);
         }
 
-        /// <summary>
-        /// Create  a New role
-        /// </summary>
-        /// <returns></returns>
+       
         public ActionResult Create()
         {
             var Role = new IdentityRole();
             return View(Role);
         }
 
-        /// <summary>
-        /// Create a New Role
-        /// </summary>
-        /// <param name="Role"></param>
-        /// <returns></returns>
+        public void sum(int a, int b)
+        {
+
+        }
+        
         [HttpPost]
         public ActionResult Create(IdentityRole Role)
         {
+            
             context.Roles.Add(Role);
             context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index");            
         }
     }
 }

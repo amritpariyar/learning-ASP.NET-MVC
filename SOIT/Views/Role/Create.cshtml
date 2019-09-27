@@ -2,25 +2,21 @@
 @{
     ViewBag.Title = "Create";
 }
- 
+
 <h2>Create</h2>
- 
-<style type="text/css">
-    #tbrole, .c {
-        border: double;
-    }
-</style>
- 
- 
+
+@*<form id="rolesForm" name="rolesForm" action="/Role/Create" method="post">
+    <label for="Name">Name</label>
+    <input type="text" id="Name" name="Name" />
+    <button type="submit" id="submit" name="submit">Submit</button>
+</form>*@
+
 @using (Html.BeginForm())
 {
-    <table id="tbrole">
-        <tr>
-            <td class="c">Enter Role Name To be Created:</td>
-            <td class="c">
-                @Html.EditorFor(m => m.Name)
-            </td>
-        </tr>
-    </table>
+
+    <label for="Name">Name</label>
+    @Html.TextBoxFor(m => m.Name)
+
     <input type="submit" value="Create Role" />
 }
+

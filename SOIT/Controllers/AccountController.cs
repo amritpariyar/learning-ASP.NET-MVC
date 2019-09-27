@@ -175,6 +175,7 @@ namespace SOIT.Controllers
                 AddErrors(result);
             }
 
+            ViewBag.RoleName = new SelectList(context.Roles.ToList(), "Name", "Name");
             // If we got this far, something failed, redisplay form
             return View(model);
         }
