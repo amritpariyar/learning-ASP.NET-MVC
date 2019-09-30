@@ -6,8 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="a39a56b90e7e489e9202e79bbb434910" Name="Diagram1">
         <EntityTypeShape EntityType="SOITModel.Province" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SOITModel.UserProfile" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="SOITModel.FK__UserProfi__Provi__25869641" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SOITModel.UserProfile" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="SOITModel.FK__UserProfi__Provi__25869641" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

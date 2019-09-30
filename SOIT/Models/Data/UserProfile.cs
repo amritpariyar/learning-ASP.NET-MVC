@@ -22,7 +22,7 @@ namespace SOIT.Models.Data
         public string Email { get; set; }
         public string Mobile { get; set; }
         public string MaritalStatus { get; set; }
-        public Nullable<bool> Gender { get; set; }
+        public string Gender { get; set; }
         public string Photo { get; set; }
         public Nullable<bool> Status { get; set; }
         public string CreatedBy { get; set; }

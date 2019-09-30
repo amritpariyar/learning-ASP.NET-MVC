@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using SOIT.Models;
+using SOIT.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,5 +48,30 @@ namespace SOIT.Controllers
             context.SaveChanges();
             return RedirectToAction("Index");            
         }
+
+        #region User
+        public ActionResult Users()
+        {
+            var usersWithRoles = (from user in context.Users
+                                  select new
+                                  {
+                                      UserId = user.Id,
+                                      Username = user.UserName,
+                                      Email = user.Email,
+                                      RoleNames = (from userRole in user.Roles
+                                                   join role in context.Roles on userRole.RoleId
+                                                   equals role.Id
+                                                   select role.Name).ToList()
+                                  }).ToList().Select(p => new UserWithRolesViewModel()
+
+                                  {
+                                      UserId = p.UserId,
+                                      UserName = p.Username,
+                                      Email = p.Email,
+                                      RoleNames = string.Join(",", p.RoleNames)
+                                  });
+            return View(usersWithRoles);
+        }
+        #endregion
     }
 }
