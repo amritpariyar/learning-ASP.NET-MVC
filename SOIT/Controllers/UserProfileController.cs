@@ -64,16 +64,16 @@ namespace SOIT.Controllers
                     }
                     else //Update section
                     {
-                        UserProfile previousRecord = dbcontext.UserProfile.Where(a => a.Id == userProfile.Id).FirstOrDefault();
+                        UserProfile previousRecord = dbcontext.UserProfile.Where(a => a.Id == userProfile.Id).AsNoTracking().FirstOrDefault();
                         //check new file selected or not
-                        if(Photo!=null && Photo.ContentLength > 0)
+                        if (Photo != null && Photo.ContentLength > 0)
                         {
                             string photosavingpath = Server.MapPath("~/UserImage");
                             //delete old one
-                            if(!string.IsNullOrEmpty(previousRecord.Photo) && Directory.Exists(photosavingpath))
+                            if (!string.IsNullOrEmpty(previousRecord.Photo) && Directory.Exists(photosavingpath))
                             {
                                 System.IO.File.Delete(photosavingpath + previousRecord.Photo);
-                            }                            
+                            }
                             //save file
                             string[] imageName = Photo.FileName.Split('.').ToArray();
                             string extension = imageName[(imageName.Length - 1)].ToString();
@@ -84,8 +84,8 @@ namespace SOIT.Controllers
                         }
                         userProfile.ModifiedBy = userProfile.ModifiedBy + ";" + User.Identity.Name;
                         userProfile.ModifiedDate = userProfile.ModifiedDate + ";" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                        dbcontext.Entry<UserProfile>(userProfile).State = EntityState.Added;
-                        //dbcontext.Entry<UserProfile>(userProfile).State = EntityState.Modified;
+                        //dbcontext.Entry<UserProfile>(userProfile).State = EntityState.Added;
+                        dbcontext.Entry<UserProfile>(userProfile).State = EntityState.Modified;
                         dbcontext.SaveChanges();
                         return RedirectToAction("Index");
                     }
