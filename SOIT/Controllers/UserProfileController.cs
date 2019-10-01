@@ -48,7 +48,7 @@ namespace SOIT.Controllers
                         //save file
                         string[] imageName = Photo.FileName.Split('.').ToArray();
                         string extension = imageName[(imageName.Length - 1)].ToString();
-                        string fileName = DateTime.Now.ToString("yyMMddmmhhss") + "_" + Photo.FileName + "." + extension;
+                        string fileName = DateTime.Now.ToString("yyMMddmmhhss") + "_" + Photo.FileName;
                         string filePath = Path.Combine(photosavingpath, fileName);
                         Photo.SaveAs(filePath);
                         //Photo.SaveAs(photosavingpath+"/"+ fileName);
@@ -72,12 +72,12 @@ namespace SOIT.Controllers
                             //delete old one
                             if (!string.IsNullOrEmpty(previousRecord.Photo) && Directory.Exists(photosavingpath))
                             {
-                                System.IO.File.Delete(photosavingpath + previousRecord.Photo);
+                                System.IO.File.Delete(Path.Combine(photosavingpath , previousRecord.Photo));
                             }
                             //save file
                             string[] imageName = Photo.FileName.Split('.').ToArray();
                             string extension = imageName[(imageName.Length - 1)].ToString();
-                            string fileName = DateTime.Now.ToString("yyMMddmmhhss") + "_" + Photo.FileName + "." + extension;
+                            string fileName = DateTime.Now.ToString("yyMMddmmhhss") + "_" + Photo.FileName;
                             string filePath = Path.Combine(photosavingpath, fileName);
                             Photo.SaveAs(filePath);
                             userProfile.Photo = fileName;
@@ -113,6 +113,47 @@ namespace SOIT.Controllers
             UserProfile userProfile = dbcontext.UserProfile.Where(a => a.Id == Id).FirstOrDefault();
             ViewBag.Province = new SelectList(dbcontext.Province.ToList(), "Id", "Name",userProfile.Province);
             return View("Create",userProfile);
+        }
+
+        [HttpPost]
+        public JsonResult ChangeStatus(int Id)
+        {
+            try
+            {
+                UserProfile userProfile = dbcontext.UserProfile
+                .Where(a => a.Id == Id)
+                .FirstOrDefault();
+                if (userProfile.Status == true)
+                {
+                    userProfile.Status = false;
+                }
+                else
+                {
+                    userProfile.Status = true;
+                }
+
+                dbcontext.Entry<UserProfile>(userProfile).State = EntityState.Modified;
+                dbcontext.SaveChanges();
+                return new JsonResult()
+                {
+                    Data = "success",
+                    MaxJsonLength = Int32.MaxValue,
+                    ContentType = "application/json",
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+                //return Json("sucess",JsonRequestBehavior.AllowGet);
+                //return View();
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult()
+                {
+                    Data = "failed",
+                    MaxJsonLength = Int32.MaxValue,
+                    ContentType = "application/json",
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
         }
     }
 }

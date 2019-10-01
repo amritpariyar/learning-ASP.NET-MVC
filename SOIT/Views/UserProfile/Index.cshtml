@@ -9,7 +9,7 @@
         <h4>User Profile</h4>
     </div>
     <div class="panel-body">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover table-responsive">
             <thead>
                 <tr>
                     <th>Full Name</th>
@@ -17,6 +17,7 @@
                     <th>Phone</th>
                     <th>Gender</th>
                     <th>Photo</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -30,7 +31,22 @@
                         <td>@item.Gender</td>
                         <td><img src="~/UserImage/@item.Photo" height="40" width="40" alt="user photo" /></td>
                         <td>
-                            <a href="/UserProfile/Edit?Id=@item.Id">Edit Me</a>
+                            @if (item.Status.Value)
+                            {
+                                <a href="javascript:void(0)" data-itemid="@item.Id" class="btn btn-success btn-xs changeStatus">
+                                    Active
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="javascript:void(0)" data-itemid="@item.Id" class="btn btn-danger btn-xs changeStatus">
+                                    Inactive
+                                </a>
+                            }
+                        </td>
+                        <td>
+                            <a href="/UserProfile/Edit?Id=@item.Id">Modify</a>
+                            <a href="/UserProfile/Delete?Id=@item.Id">Delete</a>
                         </td>
                     </tr>
                 }
@@ -38,4 +54,36 @@
         </table>
 
     </div>
-</div> 
+</div>
+
+@section scripts{
+    <script>
+        //$('.changeStatus').click(function () {
+
+        //})
+        $('.changeStatus').on('click', function () {
+            debugger;
+            var id = $(this).data('itemid');
+            var isConfirmed = confirm("Are you sure to change Status? itemid=" + id);
+            if (isConfirmed) {
+                // write request code to change status.
+                $.ajax({
+                    url: '/UserProfile/ChangeStatus?Id=' + id,
+                    method: 'POST',
+                    //data: { Id: id },
+                    success: function (responseVal) {
+                        debugger;
+                        if (responseVal == "success") {
+                            window.location.reload();
+                        } else {
+
+                        }
+                    },
+                    error: function (errorVal) {
+                        debugger;
+                    }
+                })
+            }
+        })
+    </script>
+}
