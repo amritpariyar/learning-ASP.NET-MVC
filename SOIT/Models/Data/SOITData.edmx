@@ -32,6 +32,25 @@
           <Property Name="ModifiedBy" Type="nvarchar(max)" />
           <Property Name="ModifiedDate" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="UserQualification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserProfileId" Type="int" />
+          <Property Name="IsEducation" Type="bit" />
+          <Property Name="IsCertification" Type="bit" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" />
+          <Property Name="Institution" Type="nvarchar" MaxLength="255" />
+          <Property Name="ReceiveDate" Type="nvarchar" MaxLength="20" />
+          <Property Name="FilePath" Type="nvarchar(max)" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="CraetedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedDate" Type="nvarchar(max)" />
+          <Property Name="DeletedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="DeletedDate" Type="datetime" />
+        </EntityType>
         <Association Name="FK__UserProfi__Provi__25869641">
           <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
           <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
@@ -44,12 +63,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__UserQuali__UserP__49C3F6B7">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="UserQualification" Type="Self.UserQualification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserQualification">
+              <PropertyRef Name="UserProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SOITModelStoreContainer">
           <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserQualification" EntityType="Self.UserQualification" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__UserProfi__Provi__25869641" Association="Self.FK__UserProfi__Provi__25869641">
             <End Role="Province" EntitySet="Province" />
             <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserQuali__UserP__49C3F6B7" Association="Self.FK__UserQuali__UserP__49C3F6B7">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="UserQualification" EntitySet="UserQualification" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -70,6 +106,11 @@
           <AssociationSet Name="FK__UserProfi__Provi__25869641" Association="SOITModel.FK__UserProfi__Provi__25869641">
             <End Role="Province" EntitySet="Province" />
             <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <EntitySet Name="UserQualification" EntityType="SOITModel.UserQualification" />
+          <AssociationSet Name="FK__UserQuali__UserP__49C3F6B7" Association="SOITModel.FK__UserQuali__UserP__49C3F6B7">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="UserQualification" EntitySet="UserQualification" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserProfile">
@@ -92,6 +133,7 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Province1" Relationship="SOITModel.FK__UserProfi__Provi__25869641" FromRole="UserProfile" ToRole="Province" />
+          <NavigationProperty Name="UserQualification" Relationship="SOITModel.FK__UserQuali__UserP__49C3F6B7" FromRole="UserProfile" ToRole="UserQualification" />
         </EntityType>
         <Association Name="FK__UserProfi__Provi__25869641">
           <End Type="SOITModel.Province" Role="Province" Multiplicity="0..1" />
@@ -102,6 +144,38 @@
             </Principal>
             <Dependent Role="UserProfile">
               <PropertyRef Name="Province" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserQualification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserProfileId" Type="Int32" />
+          <Property Name="IsEducation" Type="Boolean" />
+          <Property Name="IsCertification" Type="Boolean" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Institution" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ReceiveDate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CraetedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DeletedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UserProfile" Relationship="SOITModel.FK__UserQuali__UserP__49C3F6B7" FromRole="UserQualification" ToRole="UserProfile" />
+        </EntityType>
+        <Association Name="FK__UserQuali__UserP__49C3F6B7">
+          <End Type="SOITModel.UserProfile" Role="UserProfile" Multiplicity="0..1" />
+          <End Type="SOITModel.UserQualification" Role="UserQualification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserQualification">
+              <PropertyRef Name="UserProfileId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -136,6 +210,26 @@
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Province" ColumnName="Province" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserQualification">
+            <EntityTypeMapping TypeName="SOITModel.UserQualification">
+              <MappingFragment StoreEntitySet="UserQualification">
+                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CraetedDate" ColumnName="CraetedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="ReceiveDate" ColumnName="ReceiveDate" />
+                <ScalarProperty Name="Institution" ColumnName="Institution" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="IsCertification" ColumnName="IsCertification" />
+                <ScalarProperty Name="IsEducation" ColumnName="IsEducation" />
+                <ScalarProperty Name="UserProfileId" ColumnName="UserProfileId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

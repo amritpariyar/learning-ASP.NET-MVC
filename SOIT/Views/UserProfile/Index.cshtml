@@ -17,6 +17,7 @@
                     <th>Phone</th>
                     <th>Gender</th>
                     <th>Photo</th>
+                    <th>Quali.</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -30,6 +31,9 @@
                         <td>@item.Mobile</td>
                         <td>@item.Gender</td>
                         <td><img src="~/UserImage/@item.Photo" height="40" width="40" alt="user photo" /></td>
+                       <td>
+                           <button class="btn btn-xs btn-primary qualification" data-itemid="@item.Id">Show Quali.</button>
+                       </td>
                         <td>
                             @if (item.Status.Value)
                             {
@@ -52,6 +56,38 @@
                 }
             </tbody>
         </table>
+
+    </div>
+</div>
+
+<div class="modal fade" id="qualificaitonModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">User Qualification/Certification</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Institution</th>
+                            <th>Receive Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="qualificationData">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
 
     </div>
 </div>
@@ -84,6 +120,31 @@
                     }
                 })
             }
+        })
+
+        $('.qualification').on('click', function () {
+            var id = $(this).data('itemid');
+            $.ajax({
+                url: '/UserProfile/GetUsersQualification?Id=' + id,
+                method: 'GET',
+                cache: false,
+                success: function (reponseVal) {
+                    debugger;
+                    $.each(reponseVal, function (i, v) {
+                        var tr = '<tr>' +
+                            '<td>'+v.Title+'</td>' +
+                            '<td>'+v.Institution+'</td>' +
+                            '<td>'+v.ReceiveDate+'</td>' +
+                            '<td></td>'+
+                            '</tr>';
+                        $('#qualificationData').append(tr);
+                    })
+                    $('#qualificaitonModal').modal('toggle');
+                },
+                error: function (errorVal) {
+
+                }
+            })
         })
     </script>
 }

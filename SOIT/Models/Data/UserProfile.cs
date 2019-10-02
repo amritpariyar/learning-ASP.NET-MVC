@@ -14,6 +14,12 @@ namespace SOIT.Models.Data
     
     public partial class UserProfile
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public UserProfile()
+        {
+            this.UserQualification = new HashSet<UserQualification>();
+        }
+    
         public int Id { get; set; }
         public string FullName { get; set; }
         public Nullable<int> Province { get; set; }
@@ -31,5 +37,7 @@ namespace SOIT.Models.Data
         public string ModifiedDate { get; set; }
     
         public virtual Province Province1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserQualification> UserQualification { get; set; }
     }
 }

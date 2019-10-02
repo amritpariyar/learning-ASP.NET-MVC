@@ -1,4 +1,5 @@
 ﻿using SOIT.Models.Data;
+using SOIT.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -154,6 +155,44 @@ namespace SOIT.Controllers
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
             }
+        }
+
+        public JsonResult GetUsersQualification(int Id)
+        {
+            List<UserQualificationViewModel> userQualification = dbcontext
+                 .UserQualification
+                 .Where(t => t.UserProfileId == Id)
+                 .Select(t => new UserQualificationViewModel()
+                 {
+                     Id = t.Id,
+                     Title = t.Title,
+                     Institution = t.Institution,
+                     IsCertification = t.IsCertification.Value,
+                     IsEducation = t.IsEducation.Value,
+                     ReceiveDate = t.ReceiveDate
+                 }).ToList();
+
+
+            //var userQualification = dbcontext
+            //     .UserQualification
+            //     .Where(t => t.UserProfileId == Id)
+            //     .Select(t => new {
+            //         t.Id,
+            //         t.Title,
+            //         t.Institution,
+            //         t.IsCertification,
+            //         t.IsEducation,
+            //         t.ReceiveDate
+            //     })
+            //     .ToList();
+
+            return new JsonResult()
+            {
+                Data = userQualification,
+                ContentType = "application/json",
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = Int32.MaxValue
+            };
         }
     }
 }

@@ -8,6 +8,8 @@
         <EntityTypeShape EntityType="SOITModel.Province" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SOITModel.UserProfile" Width="1.5" PointX="3" PointY="1" />
         <AssociationConnector Association="SOITModel.FK__UserProfi__Provi__25869641" />
+        <EntityTypeShape EntityType="SOITModel.UserQualification" Width="1.5" PointX="5.25" PointY="1.25" />
+        <AssociationConnector Association="SOITModel.FK__UserQuali__UserP__49C3F6B7" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
