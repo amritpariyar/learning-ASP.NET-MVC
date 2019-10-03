@@ -173,15 +173,13 @@
             }
         })
 
-        $('.qualification').on('click', function () {
-            var id = $(this).data('itemid');
+        var loadQualifications = function (id) {
             $('#qualificationData').html('');
             $.ajax({
                 url: '/UserProfile/GetUsersQualification?Id=' + id,
                 method: 'GET',
                 cache: false,
                 success: function (reponseVal) {
-                    debugger;
                     $('#userProfileId').val(id);
                     $.each(reponseVal, function (i, v) {
                         var qualification_certificate = '';
@@ -199,12 +197,18 @@
                             '</tr>';
                         $('#qualificationData').append(tr);
                     })
-                    $('#qualificaitonModal').modal('toggle');
+                    
                 },
                 error: function (errorVal) {
 
                 }
             })
+        }
+
+        $('.qualification').on('click', function () {
+            var id = $(this).data('itemid');
+            loadQualifications(id);
+            $('#qualificaitonModal').modal('toggle');
         })
 
         $('#SaveQualificaiton').on('click', function () {
@@ -225,7 +229,13 @@
                 cache: false,
                 data: { userProfileId: userProfileId, title: title, institution: institution, receiveDate: receiveDate, quali_certi: quali_certi },
                 success: function (responseData) {
-                    $('#qualificaitonModal').modal('toggle');
+                    $('#newQualificationForm')[0].reset(); // resetting all element values
+                    loadQualifications(userProfileId); // after save success load list of qualification
+                    //$('#list').tab('show'); // then activate list tab.
+                    $('li').removeClass('active');
+                    $('.tab-pane').removeClass('active')
+                    $('.tab-pane#list').addClass('active')
+                    //$('#qualificaitonModal').modal('toggle');
                 }, error: function (errorVal) {
 
                 }
