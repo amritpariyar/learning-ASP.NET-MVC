@@ -117,17 +117,21 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="control-label col-md-3">Qualif./Training:</label>
                                             <div class="col-md-9 radio">
-                                                <input type="radio" id="Qualification" name="quali_certi" class="" value="Q" checked />
-                                                <label for="Qualification">Qualification</label>
-                                                <input type="radio" id="Certificate" name="quali_certi" class="" value="C" />
-                                                <label for="Certificate">Certificate</label>
+                                                <div class="col-md-4">
+                                                    <input type="radio" id="Qualification" name="quali_certi</div>" class="" value="Q" checked />
+                                                    <label for="Qualification">Qualification</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input type="radio" id="Certificate" name="quali_certi" class="" value="C" />
+                                                    <label for="Certificate">Certificate</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="button" id="SaveQualificaiton" class="btn btn-sm btn-warning"><i class="fa fa-save"></i> Save</button>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <button type="button" id="SaveQualificaiton" class="btn btn-sm btn-warning"><i class="fa fa-save"></i> Save</button>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -197,7 +201,7 @@
                             '</tr>';
                         $('#qualificationData').append(tr);
                     })
-                    
+
                 },
                 error: function (errorVal) {
 
