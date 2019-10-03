@@ -31,9 +31,9 @@
                         <td>@item.Mobile</td>
                         <td>@item.Gender</td>
                         <td><img src="~/UserImage/@item.Photo" height="40" width="40" alt="user photo" /></td>
-                       <td>
-                           <button class="btn btn-xs btn-primary qualification" data-itemid="@item.Id">Show Quali.</button>
-                       </td>
+                        <td>
+                            <button class="btn btn-xs btn-primary qualification" data-itemid="@item.Id">Show Quali.</button>
+                        </td>
                         <td>
                             @if (item.Status.Value)
                             {
@@ -70,19 +70,70 @@
                 <h4 class="modal-title">User Qualification/Certification</h4>
             </div>
             <div class="modal-body">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Institution</th>
-                            <th>Receive Date</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="qualificationData">
+                <div>
 
-                    </tbody>
-                </table>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#list" aria-controls="list" role="tab" data-toggle="tab">List</a></li>
+                        <li role="presentation"><a href="#new" aria-controls="new" role="tab" data-toggle="tab">New</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="list">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Institution</th>
+                                        <th>Receive Date</th>
+                                        <th>Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="qualificationData"></tbody>
+                            </table>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="new">
+                            <div class="row">
+                                <form id="newQualificationForm" name="newQualificationForm">
+                                    <input type="hidden" id="userProfileId" name="userProfileId" />
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="Title" class="control-label col-md-3">Title:</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="Title" name="Title" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Institution" class="control-label col-md-3">Institution:</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="Institution" name="Institution" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ReceiveDate" class="control-label col-md-3">Received Date:</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="ReceiveDate" name="ReceiveDate" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-9 radio">
+                                                <input type="radio" id="Qualification" name="quali_certi" class="" value="Q" checked />
+                                                <label for="Qualification">Qualification</label>
+                                                <input type="radio" id="Certificate" name="quali_certi" class="" value="C" />
+                                                <label for="Certificate">Certificate</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" id="SaveQualificaiton" class="btn btn-sm btn-warning"><i class="fa fa-save"></i> Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -124,24 +175,58 @@
 
         $('.qualification').on('click', function () {
             var id = $(this).data('itemid');
+            $('#qualificationData').html('');
             $.ajax({
                 url: '/UserProfile/GetUsersQualification?Id=' + id,
                 method: 'GET',
                 cache: false,
                 success: function (reponseVal) {
                     debugger;
+                    $('#userProfileId').val(id);
                     $.each(reponseVal, function (i, v) {
+                        var qualification_certificate = '';
+                        if (v.IsEducation) {
+                            qualification_certificate = "Educational";
+                        }
+                        if (v.IsCertification) {
+                            qualification_certificate = "Training";
+                        }
                         var tr = '<tr>' +
-                            '<td>'+v.Title+'</td>' +
-                            '<td>'+v.Institution+'</td>' +
-                            '<td>'+v.ReceiveDate+'</td>' +
-                            '<td></td>'+
+                            '<td>' + v.Title + '</td>' +
+                            '<td>' + v.Institution + '</td>' +
+                            '<td>' + v.ReceiveDate + '</td>' +
+                            '<td>' + qualification_certificate + '</td>' +
                             '</tr>';
                         $('#qualificationData').append(tr);
                     })
                     $('#qualificaitonModal').modal('toggle');
                 },
                 error: function (errorVal) {
+
+                }
+            })
+        })
+
+        $('#SaveQualificaiton').on('click', function () {
+            var title = '';
+            var institution = '';
+            var receiveDate = '';
+            var quali_certi = '';
+            var userProfileId = '';
+            title = $('#Title').val();
+            institution = $('#Institution').val();
+            receiveDate = $('#ReceiveDate').val();
+            quali_certi = $('input[name=quali_certi]:checked').val();
+            userProfileId = $('#userProfileId').val();
+            //var formData = $('#newQualificationForm').serialize();
+            $.ajax({
+                url: '/UserProfile/SaveUserQualification',
+                method: 'POST',
+                cache: false,
+                data: { userProfileId: userProfileId, title: title, institution: institution, receiveDate: receiveDate, quali_certi: quali_certi },
+                success: function (responseData) {
+                    $('#qualificaitonModal').modal('toggle');
+                }, error: function (errorVal) {
 
                 }
             })

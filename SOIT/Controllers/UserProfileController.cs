@@ -194,5 +194,40 @@ namespace SOIT.Controllers
                 MaxJsonLength = Int32.MaxValue
             };
         }
+
+        [HttpPost]
+        public JsonResult SaveUserQualification(int userProfileId, string title, string institution, string receiveDate,string quali_certi)
+        {
+            UserQualification qualification = new UserQualification();
+            qualification.UserProfileId = userProfileId;
+            qualification.Title = title;
+            qualification.Institution = institution;
+            qualification.ReceiveDate = receiveDate;
+            if (quali_certi == "Q")
+            {
+                qualification.IsEducation = true;
+            }
+            else
+            {
+                qualification.IsEducation = false;
+            }
+            if (quali_certi == "C")
+            {
+                qualification.IsCertification = true;
+            }
+            else
+            {
+                qualification.IsCertification = false;
+            }
+            qualification.CreatedBy = User.Identity.Name;
+            qualification.CraetedDate = DateTime.Now;
+            dbcontext.UserQualification.Add(qualification);
+            dbcontext.SaveChanges();
+            
+            return new JsonResult()
+            {
+                Data = qualification,
+            };
+        }
     }
 }
