@@ -9,6 +9,16 @@
         <h4>User Profile</h4>
     </div>
     <div class="panel-body">
+        <!-- Is Deleted Message Present? is yes, show info-->
+        @if (ViewData["DeleteMessage"] != null)
+        {
+            <div class="alert alert-info">
+                <p>@ViewData["DeleteMessage"]</p>
+            </div>
+        }
+        <div class="alert-info">
+
+        </div>
         <table class="table table-striped table-hover table-responsive">
             <thead>
                 <tr>
@@ -132,6 +142,7 @@
                                                 <button type="button" id="SaveQualificaiton" class="btn btn-sm btn-warning"><i class="fa fa-save"></i> Save</button>
                                             </div>
                                         </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -177,7 +188,7 @@
             }
         })
 
-        var loadQualifications = function (id) {
+       var loadQualifications = function (id) {
             $('#qualificationData').html('');
             $.ajax({
                 url: '/UserProfile/GetUsersQualification?Id=' + id,

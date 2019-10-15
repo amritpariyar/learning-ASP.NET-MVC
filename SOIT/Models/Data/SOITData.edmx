@@ -26,11 +26,14 @@
           <Property Name="MaritalStatus" Type="nvarchar" MaxLength="20" />
           <Property Name="Gender" Type="nvarchar" MaxLength="10" />
           <Property Name="Photo" Type="nvarchar" MaxLength="255" />
+          <Property Name="IsDeleted" Type="bit" />
           <Property Name="Status" Type="bit" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="255" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="nvarchar(max)" />
           <Property Name="ModifiedDate" Type="nvarchar(max)" />
+          <Property Name="DeletedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="DeletedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="UserQualification">
           <Key>
@@ -134,6 +137,9 @@
           <Property Name="ModifiedDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Province1" Relationship="SOITModel.FK__UserProfi__Provi__25869641" FromRole="UserProfile" ToRole="Province" />
           <NavigationProperty Name="UserQualification" Relationship="SOITModel.FK__UserQuali__UserP__49C3F6B7" FromRole="UserProfile" ToRole="UserQualification" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="DeletedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK__UserProfi__Provi__25869641">
           <End Type="SOITModel.Province" Role="Province" Multiplicity="0..1" />
@@ -196,6 +202,9 @@
           <EntitySetMapping Name="UserProfile">
             <EntityTypeMapping TypeName="SOITModel.UserProfile">
               <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />

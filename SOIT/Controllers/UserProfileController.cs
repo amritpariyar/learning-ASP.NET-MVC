@@ -21,7 +21,25 @@ namespace SOIT.Controllers
         public ActionResult Index()
         {
             var userProfiles = dbcontext.UserProfile.ToList();
+            userProfiles = userProfiles
+                .Where(a => !a.IsDeleted.HasValue || (a.IsDeleted.HasValue && !a.IsDeleted.Value))
+                .ToList();
             return View(userProfiles);
+
+            //List<UserProfile> nonDeletedRecords = new List<UserProfile>();
+            //foreach(var item in userProfiles)
+            //{
+            //    if (!item.IsDeleted.HasValue || !item.IsDeleted.Value)
+            //        nonDeletedRecords.Add(item);
+            //}
+            //userProfiles.ForEach(a =>
+            //{
+            //    if (!a.IsDeleted.HasValue || !a.IsDeleted.Value)
+            //        nonDeletedRecords.Add(a);
+
+            //});
+            //return View(nonDeletedRecords);
+
         }
 
         public ActionResult Create()
@@ -60,6 +78,7 @@ namespace SOIT.Controllers
 
 
                         dbcontext.UserProfile.Add(userProfile);
+                        //dbcontext.Entry<UserProfile>(userProfile).State = EntityState.Added;
                         dbcontext.SaveChanges();
                         return RedirectToAction("Index");
                     }
@@ -228,6 +247,38 @@ namespace SOIT.Controllers
             {
                 Data = qualification,
             };
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            try
+            {
+                //write delete(update status) logic here
+                //get previous record
+                UserProfile previousRecord = new UserProfile();
+                //previousRecord = dbcontext.UserProfile.Find(Id);
+                previousRecord = dbcontext.UserProfile.Where(a => a.Id == Id).FirstOrDefault();
+                //modify field, IsDeleted, DeletedBy, DeletedDate
+                previousRecord.IsDeleted = true;
+                previousRecord.DeletedBy = User.Identity.Name;
+                previousRecord.DeletedDate = DateTime.Now;
+                //set entity state previous record as modified
+                dbcontext.Entry<UserProfile>(previousRecord).State = EntityState.Modified;
+                //savechanges on db.
+                dbcontext.SaveChanges();
+                //return RedirectToAction("Index", "UserProfile");
+
+                //Send Deleted success/failed message.
+                //ViewBag,ViewData,TempData
+                
+                ViewData["DeleteMessage"] = "Record Deleted Successfully!!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                ViewData["DeleteMessage"] = "Record Deleted Successfully!!";
+                return RedirectToAction("Index");
+            }                      
         }
     }
 }

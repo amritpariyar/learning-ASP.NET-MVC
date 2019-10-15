@@ -35,6 +35,9 @@ namespace SOIT.Models.Data
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string ModifiedBy { get; set; }
         public string ModifiedDate { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
+        public string DeletedBy { get; set; }
+        public Nullable<System.DateTime> DeletedDate { get; set; }
     
         public virtual Province Province1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
