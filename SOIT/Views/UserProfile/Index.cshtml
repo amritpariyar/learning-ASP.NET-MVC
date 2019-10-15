@@ -10,10 +10,10 @@
     </div>
     <div class="panel-body">
         <!-- Is Deleted Message Present? is yes, show info-->
-        @if (ViewData["DeleteMessage"] != null)
+        @if (TempData["DeleteMessage"] != null)
         {
             <div class="alert alert-info">
-                <p>@ViewData["DeleteMessage"]</p>
+                <p>@TempData["DeleteMessage"]</p>
             </div>
         }
         <div class="alert-info">

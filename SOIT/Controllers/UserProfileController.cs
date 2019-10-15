@@ -271,12 +271,12 @@ namespace SOIT.Controllers
                 //Send Deleted success/failed message.
                 //ViewBag,ViewData,TempData
                 
-                ViewData["DeleteMessage"] = "Record Deleted Successfully!!";
+                TempData["DeleteMessage"] = "Record Deleted Successfully!!";
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ViewData["DeleteMessage"] = "Record Deleted Successfully!!";
+                TempData["DeleteMessage"] = "Record Delete Action Failed!! Exception:"+ex.Message;
                 return RedirectToAction("Index");
             }                      
         }
