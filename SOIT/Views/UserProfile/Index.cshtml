@@ -12,8 +12,9 @@
         <!-- Is Deleted Message Present? is yes, show info-->
         @if (TempData["DeleteMessage"] != null)
         {
-            <div class="alert alert-info">
-                <p>@TempData["DeleteMessage"]</p>
+            <div class="alert alert-info alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Info!</strong> @TempData["DeleteMessage"]
             </div>
         }
         <div class="alert-info">
@@ -98,6 +99,7 @@
                                         <th>Institution</th>
                                         <th>Receive Date</th>
                                         <th>Type</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody id="qualificationData"></tbody>
@@ -188,7 +190,7 @@
             }
         })
 
-       var loadQualifications = function (id) {
+        var loadQualifications = function (id) {
             $('#qualificationData').html('');
             $.ajax({
                 url: '/UserProfile/GetUsersQualification?Id=' + id,
@@ -209,6 +211,8 @@
                             '<td>' + v.Institution + '</td>' +
                             '<td>' + v.ReceiveDate + '</td>' +
                             '<td>' + qualification_certificate + '</td>' +
+
+                            '<td><a href="javascript:void(0)" class="deleteQualification" data-id="' + v.Id + '" data-userprofileid="' + v.UserProfileId + '" ><i class="fa fa-trash"></i></a></td>' +
                             '</tr>';
                         $('#qualificationData').append(tr);
                     })
@@ -255,6 +259,24 @@
 
                 }
             })
+        })
+
+        $(document).on('click', '.deleteQualification', function () {
+            var qualificationId = $(this).data('id');
+            var userProfileId = $(this).data('userprofileid');
+            var isDeleteConfirm = confirm("Are you sure to delete? Once deleted record cannot be recovered?");
+            if (isDeleteConfirm) {
+                $.ajax({
+                    url: '/UserProfile/DeleteUserQualification?Id=' + qualificationId,
+                    method: 'POST',
+                    cache: false,
+                    success: function (responseData) {
+                        loadQualifications(userProfileId);
+                    }, error: function (errorVal) {
+
+                    }
+                })
+            }
         })
     </script>
 }

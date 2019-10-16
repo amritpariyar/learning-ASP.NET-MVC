@@ -188,7 +188,8 @@ namespace SOIT.Controllers
                      Institution = t.Institution,
                      IsCertification = t.IsCertification.Value,
                      IsEducation = t.IsEducation.Value,
-                     ReceiveDate = t.ReceiveDate
+                     ReceiveDate = t.ReceiveDate,
+                     UserProfileId=t.UserProfileId
                  }).ToList();
 
 
@@ -276,9 +277,24 @@ namespace SOIT.Controllers
             }
             catch (Exception ex)
             {
-                TempData["DeleteMessage"] = "Record Delete Action Failed!! Exception:"+ex.Message;
+                TempData["DeleteMessage"] = "Record Delete Action Failed!! Exception:"+ex.Message ;
                 return RedirectToAction("Index");
             }                      
+        }
+
+        [HttpPost]
+        public JsonResult DeleteUserQualification(int Id)
+        {
+            // declare classObject 
+            UserQualification qualification = new UserQualification();
+            //get record by id
+            qualification = dbcontext.UserQualification.Find(Id);
+            //remove fetched record from table
+            dbcontext.UserQualification.Remove(qualification);
+            //save changes on database
+            dbcontext.SaveChanges();
+            //return success message as json result.
+            return Json("success", JsonRequestBehavior.AllowGet);
         }
     }
 }
