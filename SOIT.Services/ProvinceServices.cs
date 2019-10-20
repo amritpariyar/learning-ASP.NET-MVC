@@ -10,10 +10,11 @@ namespace SOIT.Services
 {
     public class ProvinceServices
     {
-        SOITEntities db;
-        public ProvinceServices()
+        public SOITEntities db;
+        public ProvinceServices(SOITEntities db)
         {
-            db = new SOITEntities();
+            this.db = db;
+          //  db = new SOITEntities();
         }
 
         public List<Province> GetAllProvince()

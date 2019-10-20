@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using SOIT.Data.ViewModels;
 using SOIT.Models;
-using SOIT.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

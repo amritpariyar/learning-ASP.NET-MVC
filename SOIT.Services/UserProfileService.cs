@@ -13,9 +13,9 @@ namespace SOIT.Services
     {
         //declare dbContext veriable
         private SOITEntities db;
-        public UserProfileService()
+        public UserProfileService(SOITEntities db)
         {
-            db = new SOITEntities();
+            this.db = db;
         }
 
         public List<UserProfile> GetAllUserProfiles()
@@ -109,6 +109,45 @@ namespace SOIT.Services
             db.UserQualification.Add(qualification);
             db.SaveChanges();
             return qualification;
+        }
+
+        public bool DeleteUserProfile(int id,string userName)
+        {
+            //write delete(update status) logic here
+            //get previous record
+            UserProfile previousRecord = new UserProfile();
+            //previousRecord = dbcontext.UserProfile.Find(Id);
+            previousRecord = db.UserProfile.Where(a => a.Id == id).FirstOrDefault();
+            //modify field, IsDeleted, DeletedBy, DeletedDate
+            previousRecord.IsDeleted = true;
+            previousRecord.DeletedBy = userName;
+            previousRecord.DeletedDate = DateTime.Now;
+            //set entity state previous record as modified
+            db.Entry<UserProfile>(previousRecord).State = EntityState.Modified;
+            //savechanges on db.
+            db.SaveChanges();
+            return true;
+        }
+
+        public bool DeleteUserQualification(int id)
+        {
+            try
+            {
+                UserQualification qualification = new UserQualification();
+                //get record by id
+                qualification = db.UserQualification.Find(id);
+                //remove fetched record from table
+                db.UserQualification.Remove(qualification);
+                //save changes on database
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
     }
 }

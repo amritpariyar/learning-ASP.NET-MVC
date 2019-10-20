@@ -15,6 +15,7 @@ namespace SOIT.Controllers
     //[RequestFilter]
     public class UserProfileController : Controller
     {
+        public SOITEntities db;
         //instead of directly accessing db here;
         // we will use service UserProfileService;
         // declare service used within this controller.
@@ -22,8 +23,9 @@ namespace SOIT.Controllers
         public ProvinceServices _provinceServices;
         public UserProfileController()
         {
-            _userProfileService = new UserProfileService();
-            _provinceServices = new ProvinceServices();
+            db = new SOITEntities();
+            _userProfileService = new UserProfileService(db);
+            _provinceServices = new ProvinceServices(db);
         }
         // GET: UserProfile
         public ActionResult Index()
@@ -226,7 +228,7 @@ namespace SOIT.Controllers
         [HttpPost]
         public JsonResult SaveUserQualification(int userProfileId, string title, string institution, string receiveDate,string quali_certi)
         {
-            bool isUserQualificationSaved = this._userProfileService.SaveUserQualification(userProfileId, title, institution, receiveDate, quali_certi);
+            UserQualification qualification = this._userProfileService.SaveUserQualification(userProfileId, title, institution, receiveDate, quali_certi,User.Identity.Name);
             
             return new JsonResult()
             {
@@ -238,19 +240,7 @@ namespace SOIT.Controllers
         {
             try
             {
-                //write delete(update status) logic here
-                //get previous record
-                UserProfile previousRecord = new UserProfile();
-                //previousRecord = dbcontext.UserProfile.Find(Id);
-                previousRecord = dbcontext.UserProfile.Where(a => a.Id == Id).FirstOrDefault();
-                //modify field, IsDeleted, DeletedBy, DeletedDate
-                previousRecord.IsDeleted = true;
-                previousRecord.DeletedBy = User.Identity.Name;
-                previousRecord.DeletedDate = DateTime.Now;
-                //set entity state previous record as modified
-                dbcontext.Entry<UserProfile>(previousRecord).State = EntityState.Modified;
-                //savechanges on db.
-                dbcontext.SaveChanges();
+                bool isDeleted = this._userProfileService.DeleteUserProfile(Id,User.Identity.Name);
                 //return RedirectToAction("Index", "UserProfile");
 
                 //Send Deleted success/failed message.
@@ -270,13 +260,7 @@ namespace SOIT.Controllers
         public JsonResult DeleteUserQualification(int Id)
         {
             // declare classObject 
-            UserQualification qualification = new UserQualification();
-            //get record by id
-            qualification = dbcontext.UserQualification.Find(Id);
-            //remove fetched record from table
-            dbcontext.UserQualification.Remove(qualification);
-            //save changes on database
-            dbcontext.SaveChanges();
+            bool isDeleted = this._userProfileService.DeleteUserQualification(Id);
             //return success message as json result.
             return Json("success", JsonRequestBehavior.AllowGet);
         }
