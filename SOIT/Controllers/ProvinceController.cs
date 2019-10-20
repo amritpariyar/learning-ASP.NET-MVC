@@ -14,10 +14,11 @@ namespace SOIT.Controllers
 {
     public class ProvinceController : Controller
     {
+        public SOITEntities db;
         ProvinceServices provinceServices;
         public ProvinceController()
         {
-            provinceServices = new ProvinceServices();
+            provinceServices = new ProvinceServices(db);
         }
 
         //private SOITEntities db = new SOITEntities();
