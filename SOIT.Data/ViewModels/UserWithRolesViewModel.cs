@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SOIT.Models.ViewModels
+namespace SOIT.Data.ViewModels
 {
     public class UserWithRolesViewModel
     {

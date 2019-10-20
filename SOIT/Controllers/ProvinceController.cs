@@ -6,18 +6,29 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using SOIT.Models.Data;
+using SOIT.Data;
+//using SOIT.Models.Data;
+using SOIT.Services;
 
 namespace SOIT.Controllers
 {
     public class ProvinceController : Controller
     {
-        private SOITEntities db = new SOITEntities();
+        ProvinceServices provinceServices;
+        public ProvinceController()
+        {
+            provinceServices = new ProvinceServices();
+        }
+
+        //private SOITEntities db = new SOITEntities();
 
         // GET: Province
         public ActionResult Index()
         {
-            return View(db.Province.ToList());
+            var provinceList = provinceServices.GetAllProvince();
+            return View(provinceList);
+            
+            //return View(db.Province.ToList());
         }
 
         // GET: Province/Details/5
@@ -27,7 +38,8 @@ namespace SOIT.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Province province = db.Province.Find(id);
+            Province province = provinceServices.GetProvinceById(id);
+            //Province province = db.Province.Find(id);
             if (province == null)
             {
                 return HttpNotFound();
@@ -50,8 +62,9 @@ namespace SOIT.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Province.Add(province);
-                db.SaveChanges();
+                bool isSaved = this.provinceServices.SaveProvince(province);
+                //db.Province.Add(province);
+                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +78,8 @@ namespace SOIT.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Province province = db.Province.Find(id);
+            //Province province = db.Province.Find(id);
+            Province province = this.provinceServices.GetProvinceById(id);
             if (province == null)
             {
                 return HttpNotFound();
@@ -82,8 +96,9 @@ namespace SOIT.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(province).State = EntityState.Modified;
-                db.SaveChanges();
+                this.provinceServices.UpdateProvince(province);
+                //db.Entry(province).State = EntityState.Modified;
+                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(province);
@@ -96,7 +111,8 @@ namespace SOIT.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Province province = db.Province.Find(id);
+            //Province province = db.Province.Find(id);
+            Province province = this.provinceServices.GetProvinceById(id);
             if (province == null)
             {
                 return HttpNotFound();
@@ -109,9 +125,10 @@ namespace SOIT.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Province province = db.Province.Find(id);
-            db.Province.Remove(province);
-            db.SaveChanges();
+            //Province province = db.Province.Find(id);
+            //db.Province.Remove(province);
+            //db.SaveChanges();
+            this.provinceServices.DeleteProvince(id);
             return RedirectToAction("Index");
         }
 
@@ -119,7 +136,7 @@ namespace SOIT.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                //db.Dispose();
             }
             base.Dispose(disposing);
         }

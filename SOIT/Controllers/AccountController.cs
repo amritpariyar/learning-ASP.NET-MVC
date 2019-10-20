@@ -138,7 +138,8 @@ namespace SOIT.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize]
         public ActionResult Register()
         {
             ViewBag.RoleName = new SelectList(context.Roles.ToList(), "Name", "Name");
