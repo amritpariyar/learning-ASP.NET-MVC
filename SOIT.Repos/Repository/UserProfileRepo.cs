@@ -1,4 +1,5 @@
 ﻿using SOIT.Data;
+using SOIT.Repos.Infrastructure;
 using SOIT.Repos.Interface;
 using SOIT.Services;
 using System;
@@ -9,34 +10,38 @@ using System.Threading.Tasks;
 
 namespace SOIT.Repos.Repository
 {
-    public class UserProfileRepo : IUserProfileRepo,ICommonServiceRepo
+    public class UserProfileRepo : EntityBaseRepository<UserProfile>,IUserProfileRepo
     {
-        SOITEntities _db;
-        UserProfileService _userProfileService;
-        public UserProfileRepo()
+        public UserProfileRepo(IDbFactory db):base(db)
         {
-            _db = new SOITEntities();
-            _userProfileService = new UserProfileService(_db);
-        }
-        public List<UserProfile> _GetAllUseProfile()
-        {
-            List<UserProfile> userProfiles= this._userProfileService.GetAllUserProfiles();
-            var taskList = new { };
-            List<object> userTask = new List<object>();
-            userTask.Add(new
-            {
-                userProfiles.First().FullName,
-                TaskName = ""
-            });
-            return userProfiles;
 
-            //SOITEntities db = new SOITEntities();
-            //return db.UserProfile.ToList();
         }
+        //SOITEntities _db;
+        //UserProfileService _userProfileService;
+        //public UserProfileRepo()
+        //{
+        //    _db = new SOITEntities();
+        //    _userProfileService = new UserProfileService(_db);
+        //}
+        //public List<UserProfile> _GetAllUseProfile()
+        //{
+        //    List<UserProfile> userProfiles= this._userProfileService.GetAllUserProfiles();
+        //    var taskList = new { };
+        //    List<object> userTask = new List<object>();
+        //    userTask.Add(new
+        //    {
+        //        userProfiles.First().FullName,
+        //        TaskName = ""
+        //    });
+        //    return userProfiles;
 
-        public string _GetSystemTime()
-        {
-            throw new NotImplementedException();
-        }
+        //    //SOITEntities db = new SOITEntities();
+        //    //return db.UserProfile.ToList();
+        //}
+
+        //public string _GetSystemTime()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

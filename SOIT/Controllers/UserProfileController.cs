@@ -1,5 +1,6 @@
 ﻿using SOIT.Data;
 using SOIT.Data.ViewModels;
+using SOIT.Repos.Infrastructure;
 using SOIT.Repos.Repository;
 using SOIT.Services;
 using System;
@@ -31,14 +32,16 @@ namespace SOIT.Controllers
         // GET: UserProfile
         public ActionResult Index()
         {
-            string systemTime = "";
+            //UserProfileRepo profileRepo = new UserProfileRepo(new IDbFactory());
+            //List<UserProfile> userProfiles = profileRepo.All.ToList();
+            //string systemTime = "";
 
-            UserProfileRepo userProfileRepo = new UserProfileRepo();
-            List<UserProfile> userProfiles = userProfileRepo._GetAllUseProfile();
-            return View(userProfiles);
-
-            //List<UserProfile> userProfiles = this._userProfileService.GetAllUserProfiles();
+            //UserProfileRepo userProfileRepo = new UserProfileRepo();
+            //List<UserProfile> userProfiles = userProfileRepo._GetAllUseProfile();
             //return View(userProfiles);
+
+            List<UserProfile> userProfiles = this._userProfileService.GetAllUserProfiles();
+            return View(userProfiles);
 
             //var userProfiles = dbcontext.UserProfile.ToList();
             //userProfiles = userProfiles

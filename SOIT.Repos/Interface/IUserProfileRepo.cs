@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace SOIT.Repos.Interface
 {
-    public interface IUserProfileRepo
+    public interface IUserProfileRepo:IEntityBaseRepository<UserProfile>
     {
-        List<UserProfile> _GetAllUseProfile();
+        //List<UserProfile> _GetAllUseProfile();
     }
 }

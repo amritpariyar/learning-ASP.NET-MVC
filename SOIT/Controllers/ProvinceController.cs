@@ -16,11 +16,13 @@ namespace SOIT.Controllers
 {
     public class ProvinceController : Controller
     {
-        public SOITEntities db;
-        ProvinceServices provinceServices;
-        public ProvinceController()
+        //public SOITEntities db;
+        //ProvinceServices provinceServices;
+        IEntityBaseRepository<Province> _proviceRepo;
+        public ProvinceController(IEntityBaseRepository<Province> provinceRepo)
         {
-            provinceServices = new ProvinceServices(db);
+            this._proviceRepo = provinceRepo;
+            //provinceServices = new ProvinceServices(db);
         }
 
         //private SOITEntities db = new SOITEntities();
