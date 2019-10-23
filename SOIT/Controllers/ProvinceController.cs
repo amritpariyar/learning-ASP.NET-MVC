@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SOIT.Data;
+using SOIT.Repos.Interface;
+using SOIT.Repos.Repository;
 //using SOIT.Models.Data;
 using SOIT.Services;
 
@@ -26,8 +28,14 @@ namespace SOIT.Controllers
         // GET: Province
         public ActionResult Index()
         {
-            var provinceList = provinceServices.GetAllProvince();
-            return View(provinceList);
+            ProvinceRepo provRepo = new ProvinceRepo();
+            string systemTime = "";
+            List<Province> provList = provRepo._GetProvinceList();
+            var provinceList = provinceServices.GetAllProvince(); //remove later
+            return View(provList);
+
+            //var provinceList = provinceServices.GetAllProvince();
+            //return View(provinceList);
             
             //return View(db.Province.ToList());
         }

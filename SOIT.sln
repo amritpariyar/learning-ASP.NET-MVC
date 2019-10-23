@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOIT.Data", "SOIT.Data\SOIT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOIT.Services", "SOIT.Services\SOIT.Services.csproj", "{74387119-D7E1-4946-87D8-A41669F08062}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOIT.Repos", "SOIT.Repos\SOIT.Repos.csproj", "{A541A51C-052E-4C7C-BFA5-E9F626EA0836}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{74387119-D7E1-4946-87D8-A41669F08062}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74387119-D7E1-4946-87D8-A41669F08062}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74387119-D7E1-4946-87D8-A41669F08062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A541A51C-052E-4C7C-BFA5-E9F626EA0836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A541A51C-052E-4C7C-BFA5-E9F626EA0836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A541A51C-052E-4C7C-BFA5-E9F626EA0836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A541A51C-052E-4C7C-BFA5-E9F626EA0836}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

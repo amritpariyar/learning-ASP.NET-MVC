@@ -75,6 +75,7 @@
     <Compile Include="UserQualification.cs">
       <DependentUpon>SOITEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\TaskViewModel.cs" />
     <Compile Include="ViewModels\UserQualificationViewModel.cs" />
     <Compile Include="ViewModels\UserWithRolesViewModel.cs" />
   </ItemGroup>

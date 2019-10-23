@@ -14,6 +14,10 @@ namespace SOIT.Controllers
         {
             return View();
         }
+        public ActionResult ClientIndex()
+        {
+            return View();
+        }
 
        // [HandleError(View="Error")]
         public ActionResult About()

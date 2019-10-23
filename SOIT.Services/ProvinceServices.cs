@@ -11,6 +11,7 @@ namespace SOIT.Services
     public class ProvinceServices
     {
         public SOITEntities db;
+        
         public ProvinceServices(SOITEntities db)
         {
             this.db = db;

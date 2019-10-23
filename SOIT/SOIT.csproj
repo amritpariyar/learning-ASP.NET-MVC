@@ -306,6 +306,10 @@
       <Project>{28f8e5b2-1353-426a-b18e-1d72fb780737}</Project>
       <Name>SOIT.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SOIT.Repos\SOIT.Repos.csproj">
+      <Project>{a541a51c-052e-4c7c-bfa5-e9f626ea0836}</Project>
+      <Name>SOIT.Repos</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SOIT.Services\SOIT.Services.csproj">
       <Project>{74387119-d7e1-4946-87d8-a41669f08062}</Project>
       <Name>SOIT.Services</Name>

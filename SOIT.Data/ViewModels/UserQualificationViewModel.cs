@@ -12,8 +12,7 @@ namespace SOIT.Data.ViewModels
         public string Institution { get; set; }
         public bool IsCertification { get; set; }
         public bool IsEducation { get; set; }
-        public string  ReceiveDate { get; set; }
+        public string ReceiveDate { get; set; }
         public int? UserProfileId { get; set; }
-
     }
 }

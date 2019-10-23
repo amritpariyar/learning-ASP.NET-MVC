@@ -1,5 +1,6 @@
 ﻿using SOIT.Data;
 using SOIT.Data.ViewModels;
+using SOIT.Repos.Repository;
 using SOIT.Services;
 using System;
 using System.Collections.Generic;
@@ -30,8 +31,15 @@ namespace SOIT.Controllers
         // GET: UserProfile
         public ActionResult Index()
         {
-            List<UserProfile> userProfiles = this._userProfileService.GetAllUserProfiles();
+            string systemTime = "";
+
+            UserProfileRepo userProfileRepo = new UserProfileRepo();
+            List<UserProfile> userProfiles = userProfileRepo._GetAllUseProfile();
             return View(userProfiles);
+
+            //List<UserProfile> userProfiles = this._userProfileService.GetAllUserProfiles();
+            //return View(userProfiles);
+
             //var userProfiles = dbcontext.UserProfile.ToList();
             //userProfiles = userProfiles
             //    .Where(a => !a.IsDeleted.HasValue || (a.IsDeleted.HasValue && !a.IsDeleted.Value))
