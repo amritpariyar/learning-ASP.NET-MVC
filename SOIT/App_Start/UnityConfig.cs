@@ -37,6 +37,7 @@ namespace SOIT
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<IEntityBaseRepository<Province>, EntityBaseRepository<Province>>();
             container.RegisterType<IEntityBaseRepository<UserProfile>, EntityBaseRepository<UserProfile>>();
+            container.RegisterType<IEntityBaseRepository<UserQualification>, EntityBaseRepository<UserQualification>>();
             
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
