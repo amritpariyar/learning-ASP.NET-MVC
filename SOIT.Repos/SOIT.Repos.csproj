@@ -56,9 +56,11 @@
     <Compile Include="Infrastructure\UnitOfWork.cs" />
     <Compile Include="Interface\IProvinceRepo.cs" />
     <Compile Include="Interface\IUserProfileRepo.cs" />
+    <Compile Include="Interface\IUserQualificationRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ProvinceRepo.cs" />
     <Compile Include="Repository\UserProfileRepo.cs" />
+    <Compile Include="Repository\UserQualificationRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SOIT.Data\SOIT.Data.csproj">

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SOIT.Data;
+using SOIT.Repos.Infrastructure;
 using SOIT.Repos.Interface;
 using SOIT.Repos.Repository;
 //using SOIT.Models.Data;
@@ -19,9 +20,11 @@ namespace SOIT.Controllers
         //public SOITEntities db;
         //ProvinceServices provinceServices;
         IEntityBaseRepository<Province> _proviceRepo;
-        public ProvinceController(IEntityBaseRepository<Province> provinceRepo)
+        IUnitOfWork _unitOfWork;
+        public ProvinceController(IEntityBaseRepository<Province> provinceRepo,IUnitOfWork unitOfWork)
         {
             this._proviceRepo = provinceRepo;
+            this._unitOfWork = unitOfWork;
             //provinceServices = new ProvinceServices(db);
         }
 
@@ -30,11 +33,14 @@ namespace SOIT.Controllers
         // GET: Province
         public ActionResult Index()
         {
-            ProvinceRepo provRepo = new ProvinceRepo();
-            string systemTime = "";
-            List<Province> provList = provRepo._GetProvinceList();
-            var provinceList = provinceServices.GetAllProvince(); //remove later
+            var provList = this._proviceRepo.All.ToList();
             return View(provList);
+
+            //ProvinceRepo provRepo = new ProvinceRepo();
+            //string systemTime = "";
+            //List<Province> provList = provRepo._GetProvinceList();
+            //var provinceList = provinceServices.GetAllProvince(); //remove later
+            //return View(provList);
 
             //var provinceList = provinceServices.GetAllProvince();
             //return View(provinceList);
@@ -49,7 +55,8 @@ namespace SOIT.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Province province = provinceServices.GetProvinceById(id);
+            Province province = this._proviceRepo.All.Where(a => a.Id == id).FirstOrDefault();
+            //Province province = provinceServices.GetProvinceById(id);
             //Province province = db.Province.Find(id);
             if (province == null)
             {
@@ -73,7 +80,9 @@ namespace SOIT.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool isSaved = this.provinceServices.SaveProvince(province);
+                this._proviceRepo.Add(province);
+                this._unitOfWork.Commit();
+                //bool isSaved = this.provinceServices.SaveProvince(province);
                 //db.Province.Add(province);
                 //db.SaveChanges();
                 return RedirectToAction("Index");
@@ -90,7 +99,9 @@ namespace SOIT.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //Province province = db.Province.Find(id);
-            Province province = this.provinceServices.GetProvinceById(id);
+            //Province province = this.provinceServices.GetProvinceById(id);
+            Province province = this._proviceRepo.All.Where(a => a.Id == id).FirstOrDefault();
+            
             if (province == null)
             {
                 return HttpNotFound();
@@ -107,7 +118,9 @@ namespace SOIT.Controllers
         {
             if (ModelState.IsValid)
             {
-                this.provinceServices.UpdateProvince(province);
+                this._proviceRepo.Edit(province);
+                this._unitOfWork.Commit();
+                //this.provinceServices.UpdateProvince(province);
                 //db.Entry(province).State = EntityState.Modified;
                 //db.SaveChanges();
                 return RedirectToAction("Index");
@@ -123,7 +136,8 @@ namespace SOIT.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //Province province = db.Province.Find(id);
-            Province province = this.provinceServices.GetProvinceById(id);
+            //Province province = this.provinceServices.GetProvinceById(id);
+            Province province = this._proviceRepo.All.Where(a => a.Id == id).FirstOrDefault();
             if (province == null)
             {
                 return HttpNotFound();
@@ -139,7 +153,10 @@ namespace SOIT.Controllers
             //Province province = db.Province.Find(id);
             //db.Province.Remove(province);
             //db.SaveChanges();
-            this.provinceServices.DeleteProvince(id);
+            //this.provinceServices.DeleteProvince(id);
+            Province province = this._proviceRepo.All.Where(a => a.Id == id).FirstOrDefault();
+            this._proviceRepo.Delete(province);
+            this._unitOfWork.Commit();
             return RedirectToAction("Index");
         }
 

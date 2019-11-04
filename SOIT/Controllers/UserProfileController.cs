@@ -1,6 +1,7 @@
 ﻿using SOIT.Data;
 using SOIT.Data.ViewModels;
 using SOIT.Repos.Infrastructure;
+using SOIT.Repos.Interface;
 using SOIT.Repos.Repository;
 using SOIT.Services;
 using System;
@@ -17,21 +18,38 @@ namespace SOIT.Controllers
     //[RequestFilter]
     public class UserProfileController : Controller
     {
-        public SOITEntities db;
-        //instead of directly accessing db here;
-        // we will use service UserProfileService;
-        // declare service used within this controller.
-        public UserProfileService _userProfileService;
-        public ProvinceServices _provinceServices;
-        public UserProfileController()
+        //public SOITEntities db;
+        ////instead of directly accessing db here;
+        //// we will use service UserProfileService;
+        //// declare service used within this controller.
+        //public UserProfileService _userProfileService;
+        //public ProvinceServices _provinceServices;
+        //public UserProfileController()
+        //{
+        //    db = new SOITEntities();
+        //    _userProfileService = new UserProfileService(db);
+        //    _provinceServices = new ProvinceServices(db);
+        //}
+
+        IEntityBaseRepository<UserProfile> _userProfileRepo;
+        IEntityBaseRepository<UserQualification> _userQualificationRepo;
+        IEntityBaseRepository<Province> _proviceRepo;
+        IUnitOfWork _unitOfWork;
+        public UserProfileController(IEntityBaseRepository<UserProfile> _userProfileRepo,IEntityBaseRepository<UserQualification> _userQualificationRepo,IEntityBaseRepository<Province> _proviceRepo,
+        IUnitOfWork _unitOfWork)
         {
-            db = new SOITEntities();
-            _userProfileService = new UserProfileService(db);
-            _provinceServices = new ProvinceServices(db);
+            this._userProfileRepo = _userProfileRepo;
+            this._userQualificationRepo = _userQualificationRepo;
+            this._proviceRepo = _proviceRepo;
+            this._unitOfWork = _unitOfWork;
         }
+
         // GET: UserProfile
         public ActionResult Index()
         {
+            List<UserProfile> userProfiles = this._userProfileRepo.All.ToList();
+            return View(userProfiles);
+
             //UserProfileRepo profileRepo = new UserProfileRepo(new IDbFactory());
             //List<UserProfile> userProfiles = profileRepo.All.ToList();
             //string systemTime = "";
@@ -40,8 +58,8 @@ namespace SOIT.Controllers
             //List<UserProfile> userProfiles = userProfileRepo._GetAllUseProfile();
             //return View(userProfiles);
 
-            List<UserProfile> userProfiles = this._userProfileService.GetAllUserProfiles();
-            return View(userProfiles);
+            //List<UserProfile> userProfiles = this._userProfileService.GetAllUserProfiles();
+            //return View(userProfiles);
 
             //var userProfiles = dbcontext.UserProfile.ToList();
             //userProfiles = userProfiles
@@ -70,7 +88,12 @@ namespace SOIT.Controllers
         {
             //ViewBag.Province = new SelectList(dbcontext.Province.ToList(), "Id", "Name");
             //as we need province list here, we user provinceService
-            List<Province> provinceList = this._provinceServices.GetAllProvince();
+            //List<Province> provinceList = this._provinceServices.GetAllProvince();
+            //ViewBag.Province = new SelectList(provinceList, "Id", "Name");
+            //UserProfile userProfile = new UserProfile();
+            //return View(userProfile);
+
+            List<Province> provinceList = this._proviceRepo.All.ToList();
             ViewBag.Province = new SelectList(provinceList, "Id", "Name");
             UserProfile userProfile = new UserProfile();
             return View(userProfile);
@@ -103,13 +126,18 @@ namespace SOIT.Controllers
                         userProfile.CreatedBy = User.Identity.Name;
                         userProfile.CreatedDate = DateTime.Now;
 
-                        bool isCreated= this._userProfileService.CreateUserProfile(userProfile);                        
+                        //bool isCreated= this._userProfileService.CreateUserProfile(userProfile);                        
+                        //return RedirectToAction("Index");
+
+                        this._userProfileRepo.Add(userProfile);
+                        this._unitOfWork.Commit();
                         return RedirectToAction("Index");
                     }
                     else //Update section
                     {
                         // first get previouse recocrd , so create fetching method on service first.
-                        UserProfile previousRecord = this._userProfileService.GetUserProfileById(userProfile.Id);
+                        //UserProfile previousRecord = this._userProfileService.GetUserProfileById(userProfile.Id);
+                        UserProfile previousRecord = this._userProfileRepo.All.Where(a=>a.Id==userProfile.Id).FirstOrDefault();
                         
                         //check new file selected or not
                         if (Photo != null && Photo.ContentLength > 0)
@@ -132,12 +160,14 @@ namespace SOIT.Controllers
                         userProfile.ModifiedDate = userProfile.ModifiedDate + ";" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         //dbcontext.Entry<UserProfile>(userProfile).State = EntityState.Added;
 
-                        bool isUpdated = this._userProfileService.UpdateUserProfile(userProfile);
+                        //bool isUpdated = this._userProfileService.UpdateUserProfile(userProfile);
+                        this._userProfileRepo.Edit(userProfile);
                         
                         return RedirectToAction("Index");
                     }
                 }
-                var provinceList = this._provinceServices.GetAllProvince();
+                //var provinceList = this._provinceServices.GetAllProvince();
+                var provinceList = this._proviceRepo.All.ToList();
                 ViewBag.Province = new SelectList(provinceList, "Id", "Name");
                 return View(userProfile);
             }
@@ -159,10 +189,15 @@ namespace SOIT.Controllers
             //UserProfile userProfile = dbcontext.Database.SqlQuery<UserProfile>(query).FirstOrDefault();
 
             //UserProfile userProfile = dbcontext.UserProfile.Where(a => a.Id == Id).FirstOrDefault();
-            UserProfile userProfile = this._userProfileService.GetUserProfileById(Id);
-            var provinceList = this._provinceServices.GetAllProvince();
-            ViewBag.Province = new SelectList(provinceList, "Id", "Name",userProfile.Province);
-            return View("Create",userProfile);
+            //UserProfile userProfile = this._userProfileService.GetUserProfileById(Id);
+            //var provinceList = this._provinceServices.GetAllProvince();
+            //ViewBag.Province = new SelectList(provinceList, "Id", "Name",userProfile.Province);
+            //return View("Create",userProfile);
+
+            UserProfile userProfile = this._userProfileRepo.All.Where(a=>a.Id==Id).FirstOrDefault();
+            var provinceList = this._proviceRepo.All.ToList();
+            ViewBag.Province = new SelectList(provinceList, "Id", "Name", userProfile.Province);
+            return View("Create", userProfile);
         }
 
         [HttpPost]
@@ -173,7 +208,8 @@ namespace SOIT.Controllers
                 //UserProfile userProfile = dbcontext.UserProfile
                 //.Where(a => a.Id == Id)
                 //.FirstOrDefault();
-                UserProfile userProfile = this._userProfileService.GetUserProfileById(Id);
+                //UserProfile userProfile = this._userProfileService.GetUserProfileById(Id);
+                UserProfile userProfile = this._userProfileRepo.All.Where(a=>a.Id==Id).FirstOrDefault();
                 if (userProfile.Status == true)
                 {
                     userProfile.Status = false;
@@ -185,7 +221,9 @@ namespace SOIT.Controllers
 
                 //dbcontext.Entry<UserProfile>(userProfile).State = EntityState.Modified;
                 //dbcontext.SaveChanges();
-                bool isUpdated = this._userProfileService.UpdateUserProfile(userProfile);
+                //bool isUpdated = this._userProfileService.UpdateUserProfile(userProfile);
+                this._userProfileRepo.Edit(userProfile);
+                this._unitOfWork.Commit();
                 return new JsonResult()
                 {
                     Data = "success",
@@ -211,7 +249,18 @@ namespace SOIT.Controllers
         public JsonResult GetUsersQualification(int Id)
         {
             //fetch UserQualificationViewModel data using UserProfileService.
-            List<UserQualificationViewModel> userQualification = this._userProfileService.GetUserQualificationByUserprofileId(Id);
+            //List<UserQualificationViewModel> userQualification = this._userProfileService.GetUserQualificationByUserprofileId(Id);
+            List<UserQualificationViewModel> userQualification = (from uq in this._userQualificationRepo.All
+                                                                  where uq.UserProfileId == Id
+                                                                  select new UserQualificationViewModel()
+                                                                  {
+                                                                      Id=uq.Id,
+                                                                      Title=uq.Title,
+                                                                      Institution=uq.Institution,
+                                                                      IsCertification=uq.IsCertification.Value,
+                                                                      IsEducation=uq.IsEducation.Value,
+                                                                      ReceiveDate=uq.ReceiveDate
+                                                                  }).ToList();
             
 
             //var userQualification = dbcontext
@@ -239,24 +288,66 @@ namespace SOIT.Controllers
         [HttpPost]
         public JsonResult SaveUserQualification(int userProfileId, string title, string institution, string receiveDate,string quali_certi)
         {
-            UserQualification qualification = this._userProfileService.SaveUserQualification(userProfileId, title, institution, receiveDate, quali_certi,User.Identity.Name);
-            
+            UserQualification qualification = new UserQualification();
+            qualification.UserProfileId = userProfileId;
+            qualification.Title = title;
+            qualification.Institution = institution;
+            qualification.ReceiveDate = receiveDate;
+            if (quali_certi == "Q")
+            {
+                qualification.IsEducation = true;
+            }
+            else
+            {
+                qualification.IsEducation = false;
+            }
+            if (quali_certi == "C")
+            {
+                qualification.IsCertification = true;
+            }
+            else
+            {
+                qualification.IsCertification = false;
+            }
+            qualification.CreatedBy = User.Identity.Name;// User.Identity.Name;
+            qualification.CraetedDate = DateTime.Now;
+            this._userQualificationRepo.Add(qualification);
+            this._unitOfWork.Commit();
             return new JsonResult()
             {
                 Data = qualification,
             };
+
+            //UserQualification qualification = this._userProfileService.SaveUserQualification(userProfileId, title, institution, receiveDate, quali_certi,User.Identity.Name);
+
+            //return new JsonResult()
+            //{
+            //    Data = qualification,
+            //};
         }
 
         public ActionResult Delete(int Id)
         {
             try
             {
-                bool isDeleted = this._userProfileService.DeleteUserProfile(Id,User.Identity.Name);
+                UserProfile previousRecord = new UserProfile();
+                //previousRecord = dbcontext.UserProfile.Find(Id);
+                previousRecord = this._userProfileRepo.All.Where(a => a.Id == Id).FirstOrDefault();
+                //modify field, IsDeleted, DeletedBy, DeletedDate
+                previousRecord.IsDeleted = true;
+                previousRecord.DeletedBy = User.Identity.Name;
+                previousRecord.DeletedDate = DateTime.Now;
+                //set entity state previous record as modified
+                this._userProfileRepo.Edit(previousRecord);
+                //savechanges on db.
+                this._unitOfWork.Commit();
+
+                //bool isDeleted = this._userProfileService.DeleteUserProfile(Id,User.Identity.Name);
                 //return RedirectToAction("Index", "UserProfile");
 
                 //Send Deleted success/failed message.
                 //ViewBag,ViewData,TempData
-                
+
                 TempData["DeleteMessage"] = "Record Deleted Successfully!!";
                 return RedirectToAction("Index");
             }
@@ -270,8 +361,13 @@ namespace SOIT.Controllers
         [HttpPost]
         public JsonResult DeleteUserQualification(int Id)
         {
+            UserQualification userQualification = new UserQualification();
+            userQualification = this._userQualificationRepo.All.Where(a => a.Id == Id).FirstOrDefault();
+            this._userQualificationRepo.Delete(userQualification);
+            this._unitOfWork.Commit();
+
             // declare classObject 
-            bool isDeleted = this._userProfileService.DeleteUserQualification(Id);
+            //bool isDeleted = this._userProfileService.DeleteUserQualification(Id);
             //return success message as json result.
             return Json("success", JsonRequestBehavior.AllowGet);
         }
