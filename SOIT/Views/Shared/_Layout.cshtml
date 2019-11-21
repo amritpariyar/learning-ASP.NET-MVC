@@ -17,9 +17,9 @@
     <div id="wrapper">
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-           @Html.Partial("_TopNav")
+            @Html.Partial("_TopNav")
             <!-- /.navbar-top-links -->
-           @Html.Partial("_SidebarPartial")
+            @Html.Partial("_SidebarPartial")
             <!-- /.navbar-static-side -->
         </nav>
         <!-- Page Content -->
@@ -43,6 +43,10 @@
 
     <script src="~/Theme/js/metisMenu.js"></script>
     <script src="~/Theme/js/sb-admin-2.js"></script>
+    <script src="~/Plugins/Highcharts-7.2.1/code/highcharts.js"></script>
+    <script src="~/Plugins/Highcharts-7.2.1/code/modules/series-label.js"></script>
+    <script src="~/Plugins/Highcharts-7.2.1/code/modules/exporting.js"></script>
+    <script src="~/Plugins/Highcharts-7.2.1/code/modules/export-data.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

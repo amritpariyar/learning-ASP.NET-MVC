@@ -11,6 +11,14 @@ namespace SOIT.Controllers
         // GET: test
         public ActionResult Index()
         {
+            List<int> test = new List<int>();
+            test.Add(12);
+            test.Add(13);
+            test.Add(11);
+            test.Add(12);
+            test.Add(12);
+            test.Add(12);
+
             return View();
         }
     }

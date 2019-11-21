@@ -137,7 +137,7 @@ namespace SOIT.Controllers
                     {
                         // first get previouse recocrd , so create fetching method on service first.
                         //UserProfile previousRecord = this._userProfileService.GetUserProfileById(userProfile.Id);
-                        UserProfile previousRecord = this._userProfileRepo.All.Where(a=>a.Id==userProfile.Id).FirstOrDefault();
+                        UserProfile previousRecord = this._userProfileRepo.All.Where(a=>a.Id==userProfile.Id).AsNoTracking().FirstOrDefault();
                         
                         //check new file selected or not
                         if (Photo != null && Photo.ContentLength > 0)
@@ -162,6 +162,7 @@ namespace SOIT.Controllers
 
                         //bool isUpdated = this._userProfileService.UpdateUserProfile(userProfile);
                         this._userProfileRepo.Edit(userProfile);
+                        this._unitOfWork.Commit();
                         
                         return RedirectToAction("Index");
                     }

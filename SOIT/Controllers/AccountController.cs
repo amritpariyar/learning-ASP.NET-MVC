@@ -12,7 +12,7 @@ using SOIT.Models;
 
 namespace SOIT.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -138,8 +138,8 @@ namespace SOIT.Controllers
 
         //
         // GET: /Account/Register
-        //[AllowAnonymous]
-        [Authorize]
+        [AllowAnonymous]
+        //[Authorize]
         public ActionResult Register()
         {
             ViewBag.RoleName = new SelectList(context.Roles.ToList(), "Name", "Name");

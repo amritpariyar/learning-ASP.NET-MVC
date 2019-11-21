@@ -1,0 +1,518 @@
+﻿@model IEnumerable<SOIT.Data.employee>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a href="/HR/Employee/Create" class="btn btn-warning btn-sm pull-right">Create</a>
+        <h4>Employeese</h4>
+    </div>
+    <div class="panel-body">
+
+        <!-- Is Deleted Message Present? is yes show info -->
+        @if (TempData["DeleteMessage"] != null)
+        {
+
+            <div class="alert alert-info alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                @TempData["DeleteMessage"]
+            </div>
+        }
+        <table class="table table-striped table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>DOB</th>
+                    <th>Gender</th>
+                    <th>Marital Status</th>
+                    <th>Mobile</th>
+                    <th>Photo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.fullName</td>
+                        <td>@item.dob</td>
+                        <td>@item.gender</td>
+                        <td>@item.maritalStatus</td>
+                        <td>@item.mobile</td>
+
+                        <td><img src="~/UserImage/@item.photo" height="40" width="40" alt="user photo" /></td>
+                        @*<td>
+                                @if (item.Status.Value)
+                                {
+                                    <a href="javascript:void(0)" data-itemid="@item.Id" class="btn btn-success btn-xs changeStatus" data-toggle="tooltip" data-placement="top" title="Change to Inactive">
+                                        Active
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="javascript:void(0)" data-itemid="@item.Id" class="btn btn-danger btn-xs changeStatus" data-toggle="tooltip" data-placement="top" title="Change to Active">
+                                        Inactive
+                                    </a>
+                                }
+                            </td>
+
+                            <td>
+                                <button class="btn btn-primary btn-xs qualification" data-itemid="@item.Id" href="javascript:void(0)">Show Quali.</button>
+                            </td>*@
+
+
+                        <td>
+                            <a href="/UserProfile/View?Id=@item.id" data-toggle="tooltip" data-placement="top" title="View">
+                                <span class='glyphicon glyphicon-eye-open'></span>
+
+                            </a>
+                            |
+
+                            @*@Html.ActionLink("", "Update", new { Id = item.Id })*@
+                            <a href="/employee/Update?Id=@item.id" data-toggle="tooltip" data-placement="top" title="Edit">
+                                <span class='glyphicon glyphicon-edit'></span>
+
+                            </a>
+                            |
+                            <a href="javascript:void(0)" class="btn btn-danger" onclick="ConfirmDelete(@item.id)" data-id="@item.id"><i class="glyphicon glyphicon-trash"></i> </a>
+                            @*@Html.ActionLink("Delete", "DeleteData", new { id = item.Id })*@
+                            @*<a href="javascript:void(0)" data-itemid="@item.Id" class="deleteRow" data-toggle="tooltip" data-placement="top" title="Delete">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@*----------modal here------------------*@
+@*<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>*@
+
+<div class="modal fade" id="qualificaitonModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Qualification/Certification</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#List" aria-controls="List" role="tab" data-toggle="tab">Home</a></li>
+                        <li role="presentation"><a href="#New" aria-controls="New" role="tab" data-toggle="tab">New</a></li>
+                    </ul>
+
+                    <!-- Tab Panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="List">
+
+                            <table class="table table-hover">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>Title</th>
+
+                                        <th>Institution</th>
+
+                                        <th>Receive Date</th>
+
+                                        <th>Type</th>
+
+                                        <th>Action</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody id="qualificationData"></tbody>
+
+                            </table>
+
+                        </div>
+                        <div class="tab-pane" id="New" role="tabpanel">
+                            <div class="row">
+                                <form id="newQualificationForm" name="newQualificationForm">
+                                    <input type="hidden" name="userProfileId" id="userProfileId" />
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="Title" class="control-label col-md-3">Title:</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="Title" name="Title" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Institution" class="control-label col-md-3">Institution:</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="Institution" name="Institution" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ReceiveDate" class="control-label col-md-3">Received Date:</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="ReceivedDate" name="ReceivedDate" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="radio" id="Quali" name="QualiCerti" class="checkbox-inline" value="Q" />
+
+                                            <label for="Quali">Certification</label>
+
+                                            <input type="radio" id="Certi" name="QualiCerti" class="checkbox-inline" value="C" />
+
+                                            <label for="Certi">Qualification</label>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button type="button" id="SaveQualificaiton" class="btn btn-sm btn-warning"><i class="fa fa-save"></i> Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- modal close here for new qualificaiton-->
+@*-------------------------modal end here----------------------*@
+
+
+<!-- modal open here for confirmation delete.....-->
+
+<div class="modal fade" id="confirmDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="javascript:void(0)" class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title">Delete User</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure ? You want to delete this. </h4>
+
+                <div style="text-align:center;display:none" id="loaderDiv">
+                    <img src="~/Content/InternetSlowdown_Day.gif" width="150" />
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0)" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                <a href="javascript:void(0)" class="btn btn-success deleteconfirmsubmit" onclick="DeleteEmployee()">Confirm</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- modal end here for confirmation delete-->
+
+@section scripts{
+
+    <script>
+
+        var ConfirmDelete = function (Id) {
+            $('.deleteconfirmsubmit').attr('href', '/UserProfile/DeleteData?Id=' + Id)
+
+            $("#confirmDelete").modal('show');
+
+        }
+
+
+
+        //$('.changeStatus').click(function () {
+
+
+
+        //})
+
+        $('.changeStatus').on('click', function () {
+
+            debugger;
+
+            var id = $(this).data('itemid');
+
+            var isConfirmed = confirm("Are you sure to change Status? itemid=" + id);
+
+            if (isConfirmed) {
+
+                // write request code to change status.
+
+                $.ajax({
+
+                    url: '/UserProfile/ChangeStatus?Id=' + id,
+
+                    method: 'POST',
+
+                    //data: { Id: id },
+
+                    success: function (responseVal) {
+
+                        debugger;
+
+                        if (responseVal == "success") {
+
+                            window.location.reload();
+
+                        } else {
+
+
+
+                        }
+
+                    },
+
+                    error: function (errorVal) {
+
+                        debugger;
+
+                    }
+
+                })
+
+            }
+
+        })
+
+        $('.deleteRow').on("click", function () {
+            debugger;
+            var itemid = $(this).data('itemid');
+            var isConfirmed = confirm("Are your sure want to delete?itemId=" + itemid);
+            if (isConfirmed) {
+                $.ajax({
+                    url: '/UserProfile/Delete?Id=' + itemid,
+                    method: 'POST',
+                    //data: { Id: id },
+
+                    success: function (responseVal) {
+
+                        debugger;
+
+                        if (responseVal == "success") {
+
+                            window.location.reload();
+
+                        } else {
+
+
+
+                        }
+
+                    },
+
+                    error: function (errorVal) {
+
+                        debugger;
+
+                    }
+                })
+            }
+        })
+
+        //$('.showQuali').on("click", function () {
+
+        //    var id = $(this).data('itemid');
+        //    $("#qualificationData").html('');
+        //    $.ajax({
+        //        url: '/UserProfile/GetUsersQualification?Id=' + id,
+        //        method: "GET",
+        //        cache: false,
+        //        success: function (responseVal) {
+        //            debugger;
+        //            $("#userProfileId").val(id);
+        //            $.each(responseVal, function (i, v) {
+
+        //                var tr = '<tr>' +
+
+        //                    '<td>' + v.Title + '</td>' +
+
+        //                    '<td>' + v.Institution + '</td>' +
+
+        //                    '<td>' + v.ReceivedDate + '</td>' +
+
+        //                    '<td></td>' +
+
+        //                    '</tr>';
+
+        //                $('#qualificationData').append(tr);
+
+        //            })
+
+        //            $('#qualificaitonModal').modal('toggle');
+        //        },
+        //        error: function (errorVal) {
+
+        //        }
+
+        //    });
+        //})
+
+        var loadQualifications = function (id) {
+
+            $('#qualificationData').html('');
+
+            $.ajax({
+
+                url: '/UserProfile/GetUsersQualification?Id=' + id,
+
+                method: 'GET',
+
+                cache: false,
+
+                success: function (reponseVal) {
+
+                    $('#userProfileId').val(id);
+
+                    $.each(reponseVal, function (i, v) {
+
+                        var qualification_certificate = '';
+
+                        if (v.IsEducation) {
+
+                            qualification_certificate = "Educational";
+
+                        }
+
+                        if (v.IsCertification) {
+
+                            qualification_certificate = "Training";
+
+                        }
+
+                        var tr = '<tr>' +
+
+                            '<td>' + v.Title + '</td>' +
+
+                            '<td>' + v.Institution + '</td>' +
+
+                            '<td>' + v.ReceivedDate + '</td>' +
+
+                            '<td>' + qualification_certificate + '</td>' +
+
+                            '<td><a href="javascript:void(0)" data-userid = "' + id + '" id="deleteQuali" onclick="deleteQ(' + v.Id + ')">Delete</a> </td> ' +
+
+                            '</tr>';
+
+                        $('#qualificationData').append(tr);
+
+                    })
+
+
+
+                },
+
+                error: function (errorVal) {
+
+
+
+                }
+
+            })
+
+        }
+        var deleteQ = function (Id) {
+            //$('#deleteQuali').on('click', function () {
+
+            //var id = $(this).data('itemid');
+
+            //console.log(Id);
+            var userId = $("#deleteQuali").data('userid');
+            console.log(userId);
+            //debugger;
+            var isConfirmed = confirm("Are your sure want to delete?");
+            if (isConfirmed) {
+                $.ajax({
+                    url: '/UserProfile/DeleteQualification',
+                    method: 'POST',
+                    cache: false,
+                    data: { Id },
+                    success: function (responseData) {
+                        //debugger;
+                        if (responseData == 'success') {
+                            loadQualifications(userId);
+                            //$('#qualificaitonModal').modal('toggle');
+                        }
+                    }
+                })
+            }
+            //})
+        }
+
+
+        $('.qualification').on('click', function () {
+
+            var id = $(this).data('itemid');
+
+            loadQualifications(id);
+
+            $('#qualificaitonModal').modal('toggle');
+
+        })
+
+        $('#SaveQualificaiton').on("click", function () {
+            var title = '';
+            var institution = '';
+            var receivedDate = '';
+            var qualiCerti = '';
+            var userProfileId = '';
+            title = $("#Title").val();
+            institution = $("#Institution").val();
+            receivedDate = $("#ReceivedDate").val();
+            qualiCerti = $('input[name=QualiCerti]:checked').val();
+            userProfileId = $("#userProfileId").val();
+            //var formData = $('#newQualificationForm').serialize();
+            //debugger;
+            $.ajax({
+                url: "/UserProfile/SaveUserQualification",
+                method: "POST",
+                cache: false,
+                data: { userProfileId: userProfileId, title: title, institution: institution, receivedDate: receivedDate, qualiCerti: qualiCerti },
+                success: function (responseData) {
+                    //debugger;
+                    //$('#newQualificationForm')[0].reset();
+                    //$('#qualificaitonModal').modal('toggle');
+                    $('#newQualificationForm')[0].reset(); // resetting all element values
+
+                    loadQualifications(userProfileId); // after save success load list of qualification
+
+                    //$('#list').tab('show'); // then activate list tab.
+
+                    $('li').removeClass('active');
+
+                    $('.tab-pane').removeClass('active')
+                    $('.nav-tabs li:first').addClass('active')
+                    $('.tab-pane#List').addClass('active in')
+
+                    //$('#qualificaitonModal').modal('toggle');
+                }, error: function (errorVal) {
+
+                }
+            })
+        })
+
+
+
+
+    </script>
+}

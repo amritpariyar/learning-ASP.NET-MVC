@@ -15,5 +15,10 @@ namespace SOIT.Controllers
             return View();
             
         }
+
+        public ActionResult ChartReport()
+        {
+            return View();
+        }
     }
 }

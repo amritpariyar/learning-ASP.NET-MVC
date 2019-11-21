@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">Test Page</div>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label for="FatherNameEn">Father Name</label>
+            <input type="text" id="FatherName" name="FatherNameEn" class="fathername en" />
+            <input type="text" id="FatherNameNp" name="FatherNameNp" class="fathername np" />
+        </div>
+        <div class="form-group">
+            <label for="MotherNameEn">Mother Name</label>
+            <input type="text" id="MotherNameEn" name="MotherNameEn" class="mothername en" />
+            <input type="text" id="MotherNameNp" name="MotherNameNp" class="mothername np" />
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/npDef.js"></script>
+    <script src="~/Scripts/npChar.js"></script>
+    <script language="javascript">
+        var newSession = true;
+        var isCurlyOn = false;
+        var isSquareOn = false;
+
+
+        //function beginConvert(e) {
+        //    e = (window.event) ? window.event : e;
+        //    var keycode_;
+        //    if (e.keyCode) keycode_ = e.keyCode; else keycode_ = e.charCode;
+        //    if (keycode_ == 13) moveUp(true); else convert();
+        //}
+
+
+        function convertMe(data,npElement) {
+            if ((data.length > 60 && data.charCodeAt(data.length - 1) == 32)) {
+                moveUp();
+                return;
+            }
+            var paddedAD = data;
+            if (data.indexOf("[") >= 0 && data.indexOf("]", data.indexOf("[")) > 0); else if (data.indexOf("[") >= 0 && data.indexOf("]", data.indexOf("[")) < 0) {
+                paddedAD = paddedAD + "]";
+            } else if (data.indexOf("]") >= 0) {
+                paddedAD = "[" + paddedAD;
+            } else if (isSquareOn) {
+                paddedAD = "[" + paddedAD + "]";
+            }
+
+            $('#' + npElement).val(fts(paddedAD, eval(false), true));
+        }
+
+
+    </script>
+    <script>
+        $('.en').on('keyup keydown', function () {
+            var el_char = $(this).val();
+            var el_id = $(this)[0].id;
+            //el_id = el_id.substring(0, (el_id.length - 2));
+            var npElement = el_id + 'Np';
+            var convertNp = convertMe(el_char, npElement);
+        })
+    </script>
+}

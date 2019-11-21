@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="employee.cs">
+      <DependentUpon>SOITEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="familyDetail.cs">
+      <DependentUpon>SOITEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Province.cs">
       <DependentUpon>SOITEntities.tt</DependentUpon>
@@ -75,6 +81,7 @@
     <Compile Include="UserQualification.cs">
       <DependentUpon>SOITEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\EmployeeFamilyViewModel.cs" />
     <Compile Include="ViewModels\TaskViewModel.cs" />
     <Compile Include="ViewModels\UserQualificationViewModel.cs" />
     <Compile Include="ViewModels\UserWithRolesViewModel.cs" />

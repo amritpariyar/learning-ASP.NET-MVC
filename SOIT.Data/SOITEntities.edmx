@@ -4,7 +4,54 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SOITModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SOITModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fullName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="dob" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="gender" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="maritalStatus" Type="nvarchar" MaxLength="20" />
+          <Property Name="bloodGroup" Type="nvarchar" MaxLength="20" />
+          <Property Name="photo" Type="nvarchar" MaxLength="255" />
+          <Property Name="pAddress" Type="text" />
+          <Property Name="cAddress" Type="text" />
+          <Property Name="landline" Type="nvarchar" MaxLength="20" />
+          <Property Name="mobile" Type="nvarchar" MaxLength="20" />
+          <Property Name="citizeship" Type="nvarchar" MaxLength="50" />
+          <Property Name="ctznshipDatePlace" Type="nvarchar" MaxLength="255" />
+          <Property Name="pan" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="emergencyContactName" Type="nvarchar" MaxLength="255" />
+          <Property Name="emergencyContactNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="status" Type="bit" />
+          <Property Name="createdBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="createdDate" Type="datetime" />
+          <Property Name="modifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="modifiedDate" Type="nvarchar" MaxLength="255" />
+          <Property Name="deletedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="deletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="familyDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="relationship" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="dob" Type="nvarchar" MaxLength="50" />
+          <Property Name="occupation" Type="nvarchar" MaxLength="255" />
+          <Property Name="employeeId" Type="int" Nullable="false" />
+          <Property Name="status" Type="bit" />
+          <Property Name="createdBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="createdDate" Type="datetime" />
+          <Property Name="modifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="modifiedDate" Type="nvarchar" MaxLength="255" />
+          <Property Name="deletedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="deletedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="Province">
           <Key>
             <PropertyRef Name="Id" />
@@ -54,6 +101,18 @@
           <Property Name="DeletedBy" Type="nvarchar" MaxLength="255" />
           <Property Name="DeletedDate" Type="datetime" />
         </EntityType>
+        <Association Name="FK__familyDet__emplo__71D1E811">
+          <End Role="employee" Type="Self.employee" Multiplicity="1" />
+          <End Role="familyDetail" Type="Self.familyDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="familyDetail">
+              <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__UserProfi__Provi__25869641">
           <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
           <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
@@ -79,9 +138,15 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SOITModelStoreContainer">
+          <EntitySet Name="employee" EntityType="Self.employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="familyDetail" EntityType="Self.familyDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserQualification" EntityType="Self.UserQualification" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__familyDet__emplo__71D1E811" Association="Self.FK__familyDet__emplo__71D1E811">
+            <End Role="employee" EntitySet="employee" />
+            <End Role="familyDetail" EntitySet="familyDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK__UserProfi__Provi__25869641" Association="Self.FK__UserProfi__Provi__25869641">
             <End Role="Province" EntitySet="Province" />
             <End Role="UserProfile" EntitySet="UserProfile" />
@@ -91,8 +156,7 @@
             <End Role="UserQualification" EntitySet="UserQualification" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SOITModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -185,7 +249,74 @@
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="UserQualification" EntitySet="UserQualification" />
           </AssociationSet>
+          <EntitySet Name="employee" EntityType="SOITModel.employee" />
+          <EntitySet Name="familyDetail" EntityType="SOITModel.familyDetail" />
+          <AssociationSet Name="FK__familyDet__emplo__71D1E811" Association="SOITModel.FK__familyDet__emplo__71D1E811">
+            <End Role="employee" EntitySet="employee" />
+            <End Role="familyDetail" EntitySet="familyDetail" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fullName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="dob" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="gender" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="maritalStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="bloodGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="photo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="pAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="cAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="landline" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="citizeship" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ctznshipDatePlace" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="pan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="emergencyContactName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="emergencyContactNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="createdBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="createdDate" Type="DateTime" Precision="3" />
+          <Property Name="modifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="modifiedDate" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="deletedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="deletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="familyDetail" Relationship="SOITModel.FK__familyDet__emplo__71D1E811" FromRole="employee" ToRole="familyDetail" />
+        </EntityType>
+        <EntityType Name="familyDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="relationship" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="dob" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="occupation" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="employeeId" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="createdBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="createdDate" Type="DateTime" Precision="3" />
+          <Property Name="modifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="modifiedDate" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="deletedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="deletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="employee" Relationship="SOITModel.FK__familyDet__emplo__71D1E811" FromRole="familyDetail" ToRole="employee" />
+        </EntityType>
+        <Association Name="FK__familyDet__emplo__71D1E811">
+          <End Type="SOITModel.employee" Role="employee" Multiplicity="1" />
+          <End Type="SOITModel.familyDetail" Role="familyDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="familyDetail">
+              <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -241,6 +372,55 @@
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
                 <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="employee">
+            <EntityTypeMapping TypeName="SOITModel.employee">
+              <MappingFragment StoreEntitySet="employee">
+                <ScalarProperty Name="deletedDate" ColumnName="deletedDate" />
+                <ScalarProperty Name="deletedBy" ColumnName="deletedBy" />
+                <ScalarProperty Name="modifiedDate" ColumnName="modifiedDate" />
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="emergencyContactNo" ColumnName="emergencyContactNo" />
+                <ScalarProperty Name="emergencyContactName" ColumnName="emergencyContactName" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="pan" ColumnName="pan" />
+                <ScalarProperty Name="ctznshipDatePlace" ColumnName="ctznshipDatePlace" />
+                <ScalarProperty Name="citizeship" ColumnName="citizeship" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="landline" ColumnName="landline" />
+                <ScalarProperty Name="cAddress" ColumnName="cAddress" />
+                <ScalarProperty Name="pAddress" ColumnName="pAddress" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="bloodGroup" ColumnName="bloodGroup" />
+                <ScalarProperty Name="maritalStatus" ColumnName="maritalStatus" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="fullName" ColumnName="fullName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="familyDetail">
+            <EntityTypeMapping TypeName="SOITModel.familyDetail">
+              <MappingFragment StoreEntitySet="familyDetail">
+                <ScalarProperty Name="deletedDate" ColumnName="deletedDate" />
+                <ScalarProperty Name="deletedBy" ColumnName="deletedBy" />
+                <ScalarProperty Name="modifiedDate" ColumnName="modifiedDate" />
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+                <ScalarProperty Name="occupation" ColumnName="occupation" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="relationship" ColumnName="relationship" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -10,6 +10,9 @@
         <EntityTypeShape EntityType="SOITModel.UserQualification" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
         <AssociationConnector Association="SOITModel.FK__UserProfi__Provi__25869641" ManuallyRouted="false" />
         <AssociationConnector Association="SOITModel.FK__UserQuali__UserP__49C3F6B7" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SOITModel.employee" Width="1.5" PointX="0.75" PointY="7.125" />
+        <EntityTypeShape EntityType="SOITModel.familyDetail" Width="1.5" PointX="3" PointY="8.125" />
+        <AssociationConnector Association="SOITModel.FK__familyDet__emplo__71D1E811" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -28,5 +28,7 @@ namespace SOIT.Data
         public virtual DbSet<Province> Province { get; set; }
         public virtual DbSet<UserProfile> UserProfile { get; set; }
         public virtual DbSet<UserQualification> UserQualification { get; set; }
+        public virtual DbSet<employee> employee { get; set; }
+        public virtual DbSet<familyDetail> familyDetail { get; set; }
     }
 }
