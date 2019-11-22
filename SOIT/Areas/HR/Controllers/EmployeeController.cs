@@ -89,7 +89,7 @@ namespace SOIT.Areas.HR.Controllers
                         {
                             familyDetail famData = new familyDetail();
                             famData.relationship = item.relationship;
-                            famData.employeeId = empdata.id;
+                            famData.employeeId = newEmpData.id;
                             famData.name = item.name;
                             dbcontext.familyDetail.Add(famData);
                         }
@@ -146,7 +146,7 @@ namespace SOIT.Areas.HR.Controllers
                 //ViewBag.Province = new SelectList(provinceList, "Id", "Name");
                 return View(empdata);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;

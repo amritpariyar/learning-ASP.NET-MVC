@@ -81,6 +81,7 @@
     <Compile Include="UserQualification.cs">
       <DependentUpon>SOITEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ChartDataViewModel.cs" />
     <Compile Include="ViewModels\EmployeeFamilyViewModel.cs" />
     <Compile Include="ViewModels\TaskViewModel.cs" />
     <Compile Include="ViewModels\UserQualificationViewModel.cs" />
