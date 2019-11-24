@@ -18,6 +18,7 @@ namespace SOIT.Data
         public employee()
         {
             this.familyDetail = new HashSet<familyDetail>();
+            this.experience = new HashSet<experience>();
         }
     
         public int id { get; set; }
@@ -47,5 +48,7 @@ namespace SOIT.Data
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<familyDetail> familyDetail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<experience> experience { get; set; }
     }
 }

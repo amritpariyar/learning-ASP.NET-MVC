@@ -35,5 +35,6 @@ namespace SOIT.Data.ViewModels
 
         //no of FamilyDetail for one employee so need list type of FamilyDetail.cs
         public virtual List<familyDetail> FamilyDetails { get; set; }
+        public virtual List<experience> Experiences { get; set; }
     }
 }

@@ -34,6 +34,25 @@
           <Property Name="deletedBy" Type="nvarchar" MaxLength="255" />
           <Property Name="deletedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="experience">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nameOfEmployer" Type="nvarchar" MaxLength="255" />
+          <Property Name="empStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="durationFrom" Type="nvarchar" MaxLength="100" />
+          <Property Name="durationTo" Type="nvarchar" MaxLength="100" />
+          <Property Name="tenure" Type="nvarchar" MaxLength="50" />
+          <Property Name="employeeId" Type="int" />
+          <Property Name="status" Type="bit" />
+          <Property Name="createdBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="createdDate" Type="datetime" />
+          <Property Name="modifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="modifiedDate" Type="datetime" />
+          <Property Name="deletedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="deletedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="familyDetail">
           <Key>
             <PropertyRef Name="id" />
@@ -101,6 +120,18 @@
           <Property Name="DeletedBy" Type="nvarchar" MaxLength="255" />
           <Property Name="DeletedDate" Type="datetime" />
         </EntityType>
+        <Association Name="FK__experienc__emplo__2E1BDC42">
+          <End Role="employee" Type="Self.employee" Multiplicity="0..1" />
+          <End Role="experience" Type="Self.experience" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="experience">
+              <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__familyDet__emplo__71D1E811">
           <End Role="employee" Type="Self.employee" Multiplicity="1" />
           <End Role="familyDetail" Type="Self.familyDetail" Multiplicity="*" />
@@ -139,10 +170,15 @@
         </Association>
         <EntityContainer Name="SOITModelStoreContainer">
           <EntitySet Name="employee" EntityType="Self.employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="experience" EntityType="Self.experience" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="familyDetail" EntityType="Self.familyDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserQualification" EntityType="Self.UserQualification" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__experienc__emplo__2E1BDC42" Association="Self.FK__experienc__emplo__2E1BDC42">
+            <End Role="employee" EntitySet="employee" />
+            <End Role="experience" EntitySet="experience" />
+          </AssociationSet>
           <AssociationSet Name="FK__familyDet__emplo__71D1E811" Association="Self.FK__familyDet__emplo__71D1E811">
             <End Role="employee" EntitySet="employee" />
             <End Role="familyDetail" EntitySet="familyDetail" />
@@ -255,6 +291,11 @@
             <End Role="employee" EntitySet="employee" />
             <End Role="familyDetail" EntitySet="familyDetail" />
           </AssociationSet>
+          <EntitySet Name="experience" EntityType="SOITModel.experience" />
+          <AssociationSet Name="FK__experienc__emplo__2E1BDC42" Association="SOITModel.FK__experienc__emplo__2E1BDC42">
+            <End Role="employee" EntitySet="employee" />
+            <End Role="experience" EntitySet="experience" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="employee">
           <Key>
@@ -285,6 +326,7 @@
           <Property Name="deletedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="deletedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="familyDetail" Relationship="SOITModel.FK__familyDet__emplo__71D1E811" FromRole="employee" ToRole="familyDetail" />
+          <NavigationProperty Name="experience" Relationship="SOITModel.FK__experienc__emplo__2E1BDC42" FromRole="employee" ToRole="experience" />
         </EntityType>
         <EntityType Name="familyDetail">
           <Key>
@@ -313,6 +355,38 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="familyDetail">
+              <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="experience">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameOfEmployer" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="empStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="durationFrom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="durationTo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="tenure" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="employeeId" Type="Int32" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="createdBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="createdDate" Type="DateTime" Precision="3" />
+          <Property Name="modifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="modifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="deletedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="deletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="employee" Relationship="SOITModel.FK__experienc__emplo__2E1BDC42" FromRole="experience" ToRole="employee" />
+        </EntityType>
+        <Association Name="FK__experienc__emplo__2E1BDC42">
+          <End Type="SOITModel.employee" Role="employee" Multiplicity="0..1" />
+          <End Type="SOITModel.experience" Role="experience" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="experience">
               <PropertyRef Name="employeeId" />
             </Dependent>
           </ReferentialConstraint>
@@ -420,6 +494,26 @@
                 <ScalarProperty Name="dob" ColumnName="dob" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="relationship" ColumnName="relationship" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="experience">
+            <EntityTypeMapping TypeName="SOITModel.experience">
+              <MappingFragment StoreEntitySet="experience">
+                <ScalarProperty Name="deletedDate" ColumnName="deletedDate" />
+                <ScalarProperty Name="deletedBy" ColumnName="deletedBy" />
+                <ScalarProperty Name="modifiedDate" ColumnName="modifiedDate" />
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+                <ScalarProperty Name="tenure" ColumnName="tenure" />
+                <ScalarProperty Name="durationTo" ColumnName="durationTo" />
+                <ScalarProperty Name="durationFrom" ColumnName="durationFrom" />
+                <ScalarProperty Name="empStatus" ColumnName="empStatus" />
+                <ScalarProperty Name="nameOfEmployer" ColumnName="nameOfEmployer" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

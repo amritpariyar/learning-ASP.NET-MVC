@@ -9,6 +9,7 @@ namespace SOIT.Controllers
 {
     public class DashboardController : Controller
     {
+
         // GET: Dashboard
        public ActionResult Index()
         {

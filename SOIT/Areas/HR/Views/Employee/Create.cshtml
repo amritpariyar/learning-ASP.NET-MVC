@@ -16,7 +16,7 @@
 
             <div class="panel-body">
                 @*<form class="form-horizontal row-border" action="#">*@
-                @using (Html.BeginForm("Create", "Employee", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border", @Area="HR" }))
+                @using (Html.BeginForm("Create", "Employee", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border", @Area = "HR" }))
                 {
                     @Html.AntiForgeryToken()
 
@@ -234,22 +234,27 @@
 
                                         @if (Model.FamilyDetails != null)
                                         {
+                                            int index = 0;
                                             foreach (var famItem in Model.FamilyDetails)
                                             {
                                                 <tr>
-                                                    <td><input type="text" class="form-control" name="relationship[]" id="relationship" disabled="disabled" value="@famItem.relationship" /></td>
-                                                    <td><input type="text" class="form-control" name="name[]" id="name" value="@famItem.name" /></td>
-                                                    <td><input type="text" class="form-control" name="dob[]" id="dob" value="@famItem.dob" /></td>
+                                                    <td>
+                                                        <input type="hidden" name="FamilyDetails[@index].id" value="@famItem.id" />
+                                                        <input type="text" class="form-control" name="FamilyDetails[@index].relationship" id="relationship" value="@famItem.relationship" />
+                                                    </td>
+                                                    <td><input type="text" class="form-control" name="FamilyDetails[@index].name" id="name" value="@famItem.name" /></td>
+                                                    <td><input type="text" class="form-control" name="FamilyDetails[@index].dob" id="dob" value="@famItem.dob" /></td>
                                                     <td>
                                                         <input type="text" class="form-control" name="id[]" id="id" value="@famItem.id" />
                                                     </td>
-                                                    <td><input type="text" class="form-control" name="occupation[]" id="occupation" value="@famItem.occupation" /></td>
+                                                    <td><input type="text" class="form-control" name="FamilyDetails[@index].occupation" id="occupation" value="@famItem.occupation" /></td>
                                                 </tr>
+                                                index++;
                                             }
                                         }
                                         else
                                         {
-                                            
+
                                             <tr>
                                                 <td><input type="text" class="form-control" name="FamilyDetails[0].relationship" id="relationship" value="Father" /></td>
                                                 <td><input type="text" class="form-control" name="FamilyDetails[0].name" id="name" value="" /></td>
@@ -369,117 +374,68 @@
                         <label class="col-md-2 control-label">Experience Details</label>
                         <div class="col-md-10">
                             <table class="table table-bordered small-text" id="tb">
-                                <tr class="tr-header">
-                                    <th>Name of Employer</th>
-                                    <th>Employee Status</th>
-                                    <th>Duration From</th>
-                                    <th>Duration To</th>
-                                    <th>Tenure</th>
-                                    <th><a href="javascript:void(0);" style="font-size:18px;" id="addMore" title="Add More Person"><span class="glyphicon glyphicon-plus"></span></a></th>
-                                <tr>
-                                    <td><input type="text" name="fullname[]" class="form-control"></td>
-                                    <td>
-                                        <select name="designation[]" class="form-control">
-                                            <option value="" selected>Select</option>
-                                            <option value="Engineer">Engineer</option>
-                                            <option value="Accountant">Accountant</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="mobileno[]" class="form-control"></td>
-                                    <td><input type="text" name="emailid[]" class="form-control"></td>
-                                    <td><input type="text" name="tenure[]" class="form-control" /></td>
-                                    <td><a href='javascript:void(0);' class='remove'><span class='glyphicon glyphicon-remove'></span></a></td>
-                                </tr>
+                                <thead>
+                                    <tr class="tr-header">
+                                        <th>Name of Employer</th>
+                                        <th>Employee Status</th>
+                                        <th>Duration From</th>
+                                        <th>Duration To</th>
+                                        <th>Tenure</th>
+                                        <th>
+                                            <a href="javascript:void(0);" style="font-size:18px;" id="addMore" title="Add More Person"><span class="glyphicon glyphicon-plus"></span></a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Experiences != null && Model.Experiences.Count > 0)
+                                    {
+                                        int index = 0;
+                                        foreach (var item in Model.Experiences)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" name="Experiences[@index].id" value="@item.id" />
+                                                    <input type="text" name="Experiences[@index].nameOfEmployer" value="@item.nameOfEmployer" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <select name="Experiences[@index].empStatus" class="form-control">
+                                                        <option value="">Select</option>
+                                                        <option value="Engineer" @(item.empStatus == "Engineer" ? "selected='selected'" : "")>Engineer</option>
+                                                        <option value="Accountant" @(item.empStatus == "Accountant" ? "selected='selected'" : "")>Accountant</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" name="Experiences[@index].durationFrom" value="@item.durationFrom" class="form-control"></td>
+                                                <td><input type="text" name="Experiences[@index].durationTo" value="@item.durationTo" class="form-control"></td>
+                                                <td><input type="text" name="Experiences[@index].tenure" value="@item.tenure" class="form-control" /></td>
+                                                <td><a href='javascript:void(0);' class='remove'><span class='glyphicon glyphicon-remove'></span></a></td>
+                                            </tr>
+                                            index++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="hidden" name="Experiences[0].id" value="0" />
+                                                <input type="text" name="Experiences[0].nameOfEmployer" class="form-control">
+                                            </td>
+                                            <td>
+                                                <select name="Experiences[0].empStatus" class="form-control">
+                                                    <option value="" selected="selected">Select</option>
+                                                    <option value="Engineer">Engineer</option>
+                                                    <option value="Accountant">Accountant</option>
+                                                </select>
+                                            </td>
+                                            <td><input type="text" name="Experiences[0].durationFrom" class="form-control"></td>
+                                            <td><input type="text" name="Experiences[0].durationTo" class="form-control"></td>
+                                            <td><input type="text" name="Experiences[0].tenure" class="form-control" /></td>
+                                            <td><a href='javascript:void(0);' class='remove'><span class='glyphicon glyphicon-remove'></span></a></td>
+                                        </tr>
+                                    }
+                                </tbody>
                             </table>
                         </div>
                     </div>
-                    @*<div class="form-group">
-                            <label class="col-md-2 control-label">Password</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="password" name="pass">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">With placeholder</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text" name="placeholder" placeholder="placeholder">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">Disabled field</label>
-                            <div class="col-md-10">
-                                <input type="text" name="disabled" disabled="disabled" value="disabled" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">Read only field</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text" name="readonly" readonly="" value="read only">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">Help text</label>
-                            <div class="col-md-10">
-                                <input type="text" name="regular" class="form-control">
-                                <span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">Predefined value</label>
-                            <div class="col-md-10">
-                                <input type="text" name="regular" value="http://" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">With icon</label>
-                            <div class="col-md-10">
-                                <input type="text" name="regular" class="form-control">
-                                <i class="icon-pencil input-icon"></i>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="labelfor" class="col-md-2 control-label">Clickable label</label>
-                            <div class="col-md-10">
-                                <input type="text" name="labelfor" id="labelfor" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">Column sizing</label>
-                            <div class="col-md-10">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <input type="text" class="form-control" placeholder=".col-xs-3">
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <input type="text" class="form-control" placeholder=".col-xs-5">
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <input type="text" class="form-control" placeholder=".col-xs-4">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group has-success">
-                            <label class="col-md-2 control-label">Input success</label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" id="inputSuccess" placeholder="Input Success">
-                                <i class="icon-pencil input-icon success"></i>
-                            </div>
-                        </div>
-                        <div class="form-group has-warning">
-                            <label class="col-md-2 control-label">Input warning</label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" id="inputWarning" placeholder="Input Warning">
-                                <i class="icon-pencil input-icon warning"></i>
-                            </div>
-                        </div>
-                        <div class="form-group has-error">
-                            <label class="col-md-2 control-label">Input error</label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" id="inputError" placeholder="Input Error">
-                                <i class="icon-pencil input-icon error"></i>
-                            </div>
-                        </div>*@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
@@ -502,15 +458,36 @@
     <script>
         $(function () {
             $('#addMore').on('click', function () {
-                var data = $("#tb tr:eq(1)").clone(true).appendTo("#tb");
-                data.find("input").val('');
+                //var data = $("#tb tr:eq(1)").clone(true).appendTo("#tb");
+                //data.find("input").val('');
+                var rowindex = $('#tb>tbody').find('tr').length;
+                //rowindex = (rowindex - 1);
+                var row = '<tr>' +
+                    '                   <td>' +
+                    '                      <input type="hidden" name="Experiences[' + rowindex + '].id" value="0" />' +
+                    '                      <input type="text" name="Experiences[' + rowindex + '].nameOfEmployer" class="form-control">' +
+                    '                  </td>' +
+                    '                  <td>' +
+                    '                      <select name="Experiences[' + rowindex + '].empStatus" class="form-control">' +
+                    '                          <option value="" selected="selected">Select</option>' +
+                    '                          <option value="Engineer">Engineer</option>' +
+                    '                          <option value="Accountant">Accountant</option>' +
+                    '                      </select>' +
+                    '                  </td>' +
+                    '                  <td><input type="text" name="Experiences[' + rowindex + '].durationFrom" class="form-control"></td>' +
+                    '                  <td><input type="text" name="Experiences[' + rowindex + '].durationTo" class="form-control"></td>' +
+                    '                  <td><input type="text" name="Experiences[' + rowindex + '].tenure" class="form-control" /></td>' +
+                    '                  <td><a href="javascript:void(0);" class="remove"><span class="glyphicon glyphicon-remove"></span></a></td>' +
+                    '              </tr>';
+                $('#tb>tbody').append(row);
             });
             $(document).on('click', '.remove', function () {
+                var trCount = $('#tb>tbody').find('tr').length;
                 var trIndex = $(this).closest("tr").index();
-                if (trIndex > 1) {
+                if (trIndex > 1 && trIndex == (trCount-1)) {
                     $(this).closest("tr").remove();
                 } else {
-                    alert("Sorry!! Can't remove first row!");
+                    alert("Sorry!! Can't remove this row!");
                 }
             });
         });

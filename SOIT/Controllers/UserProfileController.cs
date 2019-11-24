@@ -15,7 +15,7 @@ using System.Web.Mvc;
 namespace SOIT.Controllers
 {
     //[Authorize]
-    //[RequestFilter]
+    [RequestFilter]
     public class UserProfileController : Controller
     {
         //public SOITEntities db;

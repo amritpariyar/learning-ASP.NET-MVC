@@ -53,6 +53,9 @@
     <Compile Include="employee.cs">
       <DependentUpon>SOITEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="experience.cs">
+      <DependentUpon>SOITEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="familyDetail.cs">
       <DependentUpon>SOITEntities.tt</DependentUpon>
     </Compile>
