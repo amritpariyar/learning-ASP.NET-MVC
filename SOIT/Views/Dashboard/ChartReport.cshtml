@@ -8,11 +8,75 @@
         <div class="panel-title">Chart Report</div>
     </div>
     <div class="panel-body">
+        <div>
+            <label>Province</label>
+            <select id="province">
+                <option>Select All</option>
+            </select>
+            <label>District</label>
+            <select id="district">
+                <option>Select All</option>
+            </select>
+            <label>Local State</label>
+            <select id="localstate">
+                <option>Select All</option>
+            </select>
+        </div>
         <div id="container"></div>
     </div>
 </div>
 @section scripts{
     <script type="text/javascript">
+        var loadProvince = function () {
+            $.ajax({
+                url: '/Dashboard/LoadProvince',
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        var option = '<option value="' + v.Id + '">' + v.Name + '</option>';
+                        $('#province').append(option);
+                    })
+                }
+            })
+        }
+        var loadDistrict = function () {
+            var provinceid = $("#province :selected").val();
+            $.ajax({
+                url: '/Dashboard/LoadDistrict?ProvinceId=' + provinceid,
+                success: function (data) {
+                    $('#district>option').remove();
+                    $('#district').append('<option>Select All</option>');
+                    $.each(data, function (i, v) {
+                        var option = '<option value="' + v.DISTRICTID + '">' + v.DISTRICTNAME + '</option>';
+                        $('#district').append(option);
+                    })
+                }
+            })
+        }
+        var loadLocalState = function () {
+            var districtid = $("#district :selected").val();
+            $.ajax({
+                url: '/Dashboard/LoadLocalState?DistrictId=' + districtid,
+                success: function (data) {
+                    $('#localstate>option').remove();
+                    $('#localstate').append('<option>Select All</option>');
+                    $.each(data, function (i, v) {
+                        var option = '<option value="' + v.VDCID + '">' + v.VDCNAME + '</option>';
+                        $('#localstate').append(option);
+                    })
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            loadProvince();
+        })
+        $('#province').on('change', function () {
+            loadDistrict();
+            loadLocalState();
+        })
+        $('#district').on('change', function () {
+            loadLocalState();
+        })
         var tempData = [];
         $.ajax({
             url: '/Dashboard/GetChartData',
@@ -77,78 +141,6 @@
                 });
             }
         });
-            //for (var i = 0; i < 5; i++) {
-            //    tempData.push({
-            //        name: 'Installation_' + i,
-            //        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-            //    });
-            //}
-            //var chartData = [{
-            //    name: 'Installation',
-            //    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-            //}, {
-            //    name: 'Manufacturing',
-            //    data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-            //}, {
-            //    name: 'Sales & Distribution',
-            //    data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-            //}, {
-            //    name: 'Project Development',
-            //    data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-            //}, {
-            //    name: 'Other',
-            //    data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-            //}];
-
-
-
-            //Highcharts.chart('container', {
-
-            //    title: {
-            //        text: 'Solar Employment Growth by Sector, 2010-2016'
-            //    },
-
-            //    subtitle: {
-            //        text: 'Source: thesolarfoundation.com'
-            //    },
-
-            //    yAxis: {
-            //        title: {
-            //            text: 'Number of Employees'
-            //        }
-            //    },
-            //    legend: {
-            //        layout: 'vertical',
-            //        align: 'right',
-            //        verticalAlign: 'middle'
-            //    },
-
-            //    plotOptions: {
-            //        series: {
-            //            label: {
-            //                connectorAllowed: false
-            //            },
-            //            pointStart: 2010
-            //        }
-            //    },
-
-            //    //series: chartData,
-            //    series: tempData,
-            //    responsive: {
-            //        rules: [{
-            //            condition: {
-            //                maxWidth: 500
-            //            },
-            //            chartOptions: {
-            //                legend: {
-            //                    layout: 'horizontal',
-            //                    align: 'center',
-            //                    verticalAlign: 'bottom'
-            //                }
-            //            }
-            //        }]
-            //    }
-
-            //});
+            
     </script>
 }

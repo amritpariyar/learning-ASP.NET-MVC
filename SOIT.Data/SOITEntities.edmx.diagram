@@ -15,6 +15,9 @@
         <AssociationConnector Association="SOITModel.FK__familyDet__emplo__71D1E811" />
         <EntityTypeShape EntityType="SOITModel.experience" Width="1.5" PointX="3" PointY="13.125" />
         <AssociationConnector Association="SOITModel.FK__experienc__emplo__2E1BDC42" />
+        <EntityTypeShape EntityType="SOITModel.DISTRICT" Width="1.5" PointX="5.375" PointY="7" />
+        <EntityTypeShape EntityType="SOITModel.VDC" Width="1.5" PointX="7.625" PointY="7.125" />
+        <AssociationConnector Association="SOITModel.FK_VDC_DISTRICT" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace SOIT.Data.ViewModels
     public class EmployeeFamilyViewModel
     {
         public int id { get; set; }
+        [Required]
         public string fullName { get; set; }
         public string dob { get; set; }
         public string gender { get; set; }

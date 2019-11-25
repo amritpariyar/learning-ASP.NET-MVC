@@ -31,5 +31,7 @@ namespace SOIT.Data
         public virtual DbSet<employee> employee { get; set; }
         public virtual DbSet<familyDetail> familyDetail { get; set; }
         public virtual DbSet<experience> experience { get; set; }
+        public virtual DbSet<DISTRICT> DISTRICT { get; set; }
+        public virtual DbSet<VDC> VDC { get; set; }
     }
 }

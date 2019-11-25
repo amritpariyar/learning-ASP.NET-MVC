@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace SOIT.Data.ViewModels
 {
+    public enum Statuss
+    {
+        Active,
+        Inactive
+    }
     public class TaskViewModel
     {
         

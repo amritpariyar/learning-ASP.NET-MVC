@@ -33,7 +33,7 @@ namespace SOIT.Areas.HR.Controllers
             //familyDetail familydetail = new familyDetail();
 
             //commonViewModel emoployeedetails.emaploye = empdata;
-
+            
             return View(empdata);
         }
 
@@ -151,6 +151,7 @@ namespace SOIT.Areas.HR.Controllers
                         //first delete previous recorded experiences, then add current
                         List<experience> prevExperiences = dbcontext.experience.Where(a => a.employeeId == empdata.id).ToList();
                         dbcontext.experience.RemoveRange(prevExperiences);
+                        
                         foreach (var item in empdata.Experiences)
                         {
                             experience exp = new experience()

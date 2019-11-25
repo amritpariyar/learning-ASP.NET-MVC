@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SOITModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DISTRICT">
+          <Key>
+            <PropertyRef Name="DISTRICTID" />
+          </Key>
+          <Property Name="DISTRICTID" Type="smallint" Nullable="false" />
+          <Property Name="ZONEID" Type="smallint" Nullable="false" />
+          <Property Name="DISTRICTNAME" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="ProvinenceID" Type="int" />
+          <Property Name="DISTRICTNAME_Nep" Type="nvarchar" MaxLength="100" />
+          <Property Name="OrganizationID" Type="int" />
+        </EntityType>
         <EntityType Name="employee">
           <Key>
             <PropertyRef Name="id" />
@@ -120,6 +131,15 @@
           <Property Name="DeletedBy" Type="nvarchar" MaxLength="255" />
           <Property Name="DeletedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="VDC">
+          <Key>
+            <PropertyRef Name="VDCID" />
+          </Key>
+          <Property Name="VDCID" Type="smallint" Nullable="false" />
+          <Property Name="ZONEID" Type="smallint" Nullable="false" />
+          <Property Name="DISTRICTID" Type="smallint" Nullable="false" />
+          <Property Name="VDCNAME" Type="varchar" MaxLength="35" Nullable="false" />
+        </EntityType>
         <Association Name="FK__experienc__emplo__2E1BDC42">
           <End Role="employee" Type="Self.employee" Multiplicity="0..1" />
           <End Role="experience" Type="Self.experience" Multiplicity="*" />
@@ -168,13 +188,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_VDC_DISTRICT">
+          <End Role="DISTRICT" Type="Self.DISTRICT" Multiplicity="1" />
+          <End Role="VDC" Type="Self.VDC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DISTRICT">
+              <PropertyRef Name="DISTRICTID" />
+            </Principal>
+            <Dependent Role="VDC">
+              <PropertyRef Name="DISTRICTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SOITModelStoreContainer">
+          <EntitySet Name="DISTRICT" EntityType="Self.DISTRICT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="employee" EntityType="Self.employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="experience" EntityType="Self.experience" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="familyDetail" EntityType="Self.familyDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserQualification" EntityType="Self.UserQualification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VDC" EntityType="Self.VDC" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__experienc__emplo__2E1BDC42" Association="Self.FK__experienc__emplo__2E1BDC42">
             <End Role="employee" EntitySet="employee" />
             <End Role="experience" EntitySet="experience" />
@@ -190,6 +224,10 @@
           <AssociationSet Name="FK__UserQuali__UserP__49C3F6B7" Association="Self.FK__UserQuali__UserP__49C3F6B7">
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="UserQualification" EntitySet="UserQualification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VDC_DISTRICT" Association="Self.FK_VDC_DISTRICT">
+            <End Role="DISTRICT" EntitySet="DISTRICT" />
+            <End Role="VDC" EntitySet="VDC" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -296,6 +334,12 @@
             <End Role="employee" EntitySet="employee" />
             <End Role="experience" EntitySet="experience" />
           </AssociationSet>
+          <EntitySet Name="DISTRICT" EntityType="SOITModel.DISTRICT" />
+          <EntitySet Name="VDC" EntityType="SOITModel.VDC" />
+          <AssociationSet Name="FK_VDC_DISTRICT" Association="SOITModel.FK_VDC_DISTRICT">
+            <End Role="DISTRICT" EntitySet="DISTRICT" />
+            <End Role="VDC" EntitySet="VDC" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="employee">
           <Key>
@@ -388,6 +432,40 @@
             </Principal>
             <Dependent Role="experience">
               <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DISTRICT">
+          <Key>
+            <PropertyRef Name="DISTRICTID" />
+          </Key>
+          <Property Name="DISTRICTID" Type="Int16" Nullable="false" />
+          <Property Name="ZONEID" Type="Int16" Nullable="false" />
+          <Property Name="DISTRICTNAME" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="ProvinenceID" Type="Int32" />
+          <Property Name="DISTRICTNAME_Nep" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OrganizationID" Type="Int32" />
+          <NavigationProperty Name="VDC" Relationship="SOITModel.FK_VDC_DISTRICT" FromRole="DISTRICT" ToRole="VDC" />
+        </EntityType>
+        <EntityType Name="VDC">
+          <Key>
+            <PropertyRef Name="VDCID" />
+          </Key>
+          <Property Name="VDCID" Type="Int16" Nullable="false" />
+          <Property Name="ZONEID" Type="Int16" Nullable="false" />
+          <Property Name="DISTRICTID" Type="Int16" Nullable="false" />
+          <Property Name="VDCNAME" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DISTRICT" Relationship="SOITModel.FK_VDC_DISTRICT" FromRole="VDC" ToRole="DISTRICT" />
+        </EntityType>
+        <Association Name="FK_VDC_DISTRICT">
+          <End Type="SOITModel.DISTRICT" Role="DISTRICT" Multiplicity="1" />
+          <End Type="SOITModel.VDC" Role="VDC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DISTRICT">
+              <PropertyRef Name="DISTRICTID" />
+            </Principal>
+            <Dependent Role="VDC">
+              <PropertyRef Name="DISTRICTID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -515,6 +593,28 @@
                 <ScalarProperty Name="empStatus" ColumnName="empStatus" />
                 <ScalarProperty Name="nameOfEmployer" ColumnName="nameOfEmployer" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DISTRICT">
+            <EntityTypeMapping TypeName="SOITModel.DISTRICT">
+              <MappingFragment StoreEntitySet="DISTRICT">
+                <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+                <ScalarProperty Name="DISTRICTNAME_Nep" ColumnName="DISTRICTNAME_Nep" />
+                <ScalarProperty Name="ProvinenceID" ColumnName="ProvinenceID" />
+                <ScalarProperty Name="DISTRICTNAME" ColumnName="DISTRICTNAME" />
+                <ScalarProperty Name="ZONEID" ColumnName="ZONEID" />
+                <ScalarProperty Name="DISTRICTID" ColumnName="DISTRICTID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VDC">
+            <EntityTypeMapping TypeName="SOITModel.VDC">
+              <MappingFragment StoreEntitySet="VDC">
+                <ScalarProperty Name="VDCNAME" ColumnName="VDCNAME" />
+                <ScalarProperty Name="DISTRICTID" ColumnName="DISTRICTID" />
+                <ScalarProperty Name="ZONEID" ColumnName="ZONEID" />
+                <ScalarProperty Name="VDCID" ColumnName="VDCID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

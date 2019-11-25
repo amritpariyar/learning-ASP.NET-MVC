@@ -2,8 +2,8 @@
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
+}
 
 <div class="row">
     <div class="col-md-12 col-sm-6 col-xs-12">
@@ -17,432 +17,430 @@
             <div class="panel-body">
                 @*<form class="form-horizontal row-border" action="#">*@
                 @using (Html.BeginForm("Create", "Employee", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border", @Area = "HR" }))
-                {
-                    @Html.AntiForgeryToken()
+                                                {
+                @Html.AntiForgeryToken()
 
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.id)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.id)
 
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.fullName, htmlAttributes: new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    @Html.EditorFor(model => model.fullName, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.fullName, "", new { @class = "text-danger" })
-                                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.fullName, htmlAttributes: new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.fullName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.fullName, "", new { @class = "text-danger" })
+                            </div>
 
-                                <div class="col-sm-2">
-                                    @Html.LabelFor(model => model.dob, htmlAttributes: new { @class = "col-md-2 control-label" })
-                                </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.dob, htmlAttributes: new { @class = "col-md-2 control-label" })
+                            </div>
 
-                                <div class="col-md-5">
-                                    @*@Html.EditorFor(model => model.Dob, new { htmlAttributes = new { @class = "form-control" } })*@
-                                    <input type="date" name="Dob" id="Dob" class="form-control" value="@Model.dob" />
-                                    @Html.ValidationMessageFor(model => model.dob, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="col-md-5">
+                                @*@Html.EditorFor(model => model.Dob, new { htmlAttributes = new { @class = "form-control" } })*@
+                                <input type="date" name="Dob" id="Dob" class="form-control" value="@Model.dob" />
+                                @Html.ValidationMessageFor(model => model.dob, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
+                </div>
 
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.mobile, htmlAttributes: new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    @Html.EditorFor(model => model.mobile, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.mobile, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-sm-2">
-                                    @Html.LabelFor(model => model.maritalStatus, htmlAttributes: new { @class = "col-md-2 control-label" })
-                                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.mobile, htmlAttributes: new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.mobile, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.mobile, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.maritalStatus, htmlAttributes: new { @class = "col-md-2 control-label" })
+                            </div>
 
-                                <div class="col-md-5">
-                                    <select id="MaritalStatus" name="MaritalStatus" class="form-control">
-                                        <option value="Single" @(Model.maritalStatus == "Single" ? "selected" : "")>Single</option>
-                                        <option value="Married" @(Model.maritalStatus == "Married" ? "selected" : "")>Married</option>
-                                        <option value="Divorced" @(Model.maritalStatus == "Divorced" ? "selected" : "")>Divorced</option>
-                                        <option value="Widowed" @(Model.maritalStatus == "Widowed" ? "selected" : "")>Widowed</option>
-                                        <option value="Separated" @(Model.maritalStatus == "Separated" ? "selected" : "")>Separated</option>
-                                    </select>
-                                </div>
+                            <div class="col-md-5">
+                                <select id="MaritalStatus" name="MaritalStatus" class="form-control">
+                                    <option value="Single" @(Model.maritalStatus == "Single" ? "selected" : "")>Single</option>
+                                    <option value="Married" @(Model.maritalStatus == "Married" ? "selected" : "")>Married</option>
+                                    <option value="Divorced" @(Model.maritalStatus == "Divorced" ? "selected" : "")>Divorced</option>
+                                    <option value="Widowed" @(Model.maritalStatus == "Widowed" ? "selected" : "")>Widowed</option>
+                                    <option value="Separated" @(Model.maritalStatus == "Separated" ? "selected" : "")>Separated</option>
+                                </select>
                             </div>
                         </div>
                     </div>
+                </div>
 
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.gender, htmlAttributes: new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <label for="Female" class="radio-inline">
-                                        <input class="inline-radio" type="radio" id="Female" name="gender" value="F" @(Model.gender == "F" ? "checked" : "") />
-                                        Female
-                                    </label>
-                                    <label for="Male" class="radio-inline">
-                                        <input class="radio" type="radio" id="Male" name="gender" value="M" @(Model.gender == "M" ? "checked" : "") />
-                                        Male
-                                    </label>
-                                    <label for="Other" class="radio-inline">
-                                        <input class="radio" type="radio" id="Other" name="gender" value="O" @(Model.gender == "O" ? "checked" : "") />
-                                        Other
-                                    </label>
-                                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.gender, htmlAttributes: new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="Female" class="radio-inline">
+                                    <input class="inline-radio" type="radio" id="Female" name="gender" value="F" @(Model.gender == "F" ? "checked" : "") />
+                                    Female
+                                </label>
+                                <label for="Male" class="radio-inline">
+                                    <input class="radio" type="radio" id="Male" name="gender" value="M" @(Model.gender == "M" ? "checked" : "") />
+                                    Male
+                                </label>
+                                <label for="Other" class="radio-inline">
+                                    <input class="radio" type="radio" id="Other" name="gender" value="O" @(Model.gender == "O" ? "checked" : "") />
+                                    Other
+                                </label>
+                            </div>
 
-                                <div class="col-sm-2">
-                                    @Html.LabelFor(model => model.photo, htmlAttributes: new { @class = "col-md-2 control-label" })
-                                </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.photo, htmlAttributes: new { @class = "col-md-2 control-label" })
+                            </div>
 
-                                <div class="col-md-3">
-                                    <input type="file" id="UserImage" name="photo" class="form-control-file" />
-                                    @Html.ValidationMessageFor(model => model.photo, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @if (Model.photo != "" && Model.photo != null)
-                                    {
-                                        <img src="~/UserImage/@Model.photo" height="100" width="100" alt="N/A" />
-                                    }
-                                </div>
+                            <div class="col-md-3">
+                                <input type="file" id="UserImage" name="photo" class="form-control-file" />
+                                @Html.ValidationMessageFor(model => model.photo, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                @if (Model.photo != "" && Model.photo != null)
+                                                                                                    {
+                                <img src="~/UserImage/@Model.photo" height="100" width="100" alt="N/A" />
+                                                                                                    }
                             </div>
                         </div>
                     </div>
+                </div>
 
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.bloodGroup, htmlAttributes: new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <select id="bloodGroup" name="bloodGroup" class="form-control">
-                                        <option value="A+ve" @(Model.bloodGroup == "A+ve" ? "selected" : "")>A+ve</option>
-                                        <option value="B+ve" @(Model.bloodGroup == "B+ve" ? "selected" : "")>B+ve</option>
-                                        <option value="O+ve" @(Model.bloodGroup == "O+ve" ? "selected" : "")>O+ve</option>
-                                        <option value="AB+ve" @(Model.bloodGroup == "AB+ve" ? "selected" : "")>AB+ve</option>
-                                        <option value="A-ve" @(Model.bloodGroup == "A-ve" ? "selected" : "")>A-ve</option>
-                                        <option value="B-ve" @(Model.bloodGroup == "B-ve" ? "selected" : "")>B-ve</option>
-                                        <option value="O-ve" @(Model.bloodGroup == "O-ve" ? "selected" : "")>O-ve</option>
-                                        <option value="AB-ve" @(Model.bloodGroup == "AB-ve" ? "selected" : "")>AB-ve</option>
-                                    </select>
-                                    @Html.ValidationMessageFor(model => model.bloodGroup, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-sm-2">
-                                    @Html.LabelFor(model => model.landline, htmlAttributes: new { @class = "col-md-2 control-label" })
-                                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.bloodGroup, htmlAttributes: new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <select id="bloodGroup" name="bloodGroup" class="form-control">
+                                    <option value="A+ve" @(Model.bloodGroup == "A+ve" ? "selected" : "")>A+ve</option>
+                                    <option value="B+ve" @(Model.bloodGroup == "B+ve" ? "selected" : "")>B+ve</option>
+                                    <option value="O+ve" @(Model.bloodGroup == "O+ve" ? "selected" : "")>O+ve</option>
+                                    <option value="AB+ve" @(Model.bloodGroup == "AB+ve" ? "selected" : "")>AB+ve</option>
+                                    <option value="A-ve" @(Model.bloodGroup == "A-ve" ? "selected" : "")>A-ve</option>
+                                    <option value="B-ve" @(Model.bloodGroup == "B-ve" ? "selected" : "")>B-ve</option>
+                                    <option value="O-ve" @(Model.bloodGroup == "O-ve" ? "selected" : "")>O-ve</option>
+                                    <option value="AB-ve" @(Model.bloodGroup == "AB-ve" ? "selected" : "")>AB-ve</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.bloodGroup, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.landline, htmlAttributes: new { @class = "col-md-2 control-label" })
+                            </div>
 
-                                <div class="col-md-5">
-                                    @Html.EditorFor(model => model.landline, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.landline, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.landline, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.landline, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Parmenent Address</label>
-                        <div class="col-md-10">
-                            <textarea class="form-control" name="pAddress">@Model.pAddress</textarea>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Parmenent Address</label>
+                    <div class="col-md-10">
+                        <textarea class="form-control" name="pAddress">@Model.pAddress</textarea>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Correspondence Address</label>
-                        <div class="col-md-10">
-                            <textarea class="form-control" name="cAddress">@Model.cAddress</textarea>
-                        </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Correspondence Address</label>
+                    <div class="col-md-10">
+                        <textarea class="form-control" name="cAddress">@Model.cAddress</textarea>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.citizeship, htmlAttributes: new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    @Html.EditorFor(model => model.citizeship, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.citizeship, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-sm-2">
-                                    @Html.LabelFor(model => model.ctznshipDatePlace, htmlAttributes: new { @class = "col-md-2 control-label" })
-                                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.citizeship, htmlAttributes: new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.citizeship, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.citizeship, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.ctznshipDatePlace, htmlAttributes: new { @class = "col-md-2 control-label" })
+                            </div>
 
-                                <div class="col-md-5">
-                                    @Html.EditorFor(model => model.ctznshipDatePlace, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.ctznshipDatePlace, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.ctznshipDatePlace, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ctznshipDatePlace, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-sm-2">
-                                    @Html.LabelFor(model => model.pan, htmlAttributes: new { @class = "col-md-2 control-label" })
-                                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.pan, htmlAttributes: new { @class = "col-md-2 control-label" })
+                            </div>
 
-                                <div class="col-md-5">
-                                    @Html.EditorFor(model => model.pan, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.pan, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.pan, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.pan, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
+                </div>
 
 
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Emergency Contact Person Name</label>
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    @Html.EditorFor(model => model.emergencyContactName, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.emergencyContactName, "", new { @class = "text-danger" })
-                                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Emergency Contact Person Name</label>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.emergencyContactName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.emergencyContactName, "", new { @class = "text-danger" })
+                            </div>
 
-                                <div class="col-sm-2">
-                                    @Html.LabelFor(model => model.emergencyContactNo, htmlAttributes: new { @class = "col-md-2 control-label" })
-                                </div>
-                                <div class="col-md-5">
-                                    @Html.EditorFor(model => model.emergencyContactNo, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.emergencyContactNo, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.emergencyContactNo, htmlAttributes: new { @class = "col-md-2 control-label" })
+                            </div>
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.emergencyContactNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.emergencyContactNo, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
+                </div>
 
 
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Family Details</label>
-                        <div class="col-md-10">
-                            <div class="table-wrapper">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Family Details</label>
+                    <div class="col-md-10">
+                        <div class="table-wrapper">
 
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Relationship</th>
-                                            <th>Name</th>
-                                            <th>Dob</th>
-                                            <th>Age</th>
-                                            <th>Occupation</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @if (Model.FamilyDetails != null)
-                                        {
-                                            int index = 0;
-                                            foreach (var famItem in Model.FamilyDetails)
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        <input type="hidden" name="FamilyDetails[@index].id" value="@famItem.id" />
-                                                        <input type="text" class="form-control" name="FamilyDetails[@index].relationship" id="relationship" value="@famItem.relationship" />
-                                                    </td>
-                                                    <td><input type="text" class="form-control" name="FamilyDetails[@index].name" id="name" value="@famItem.name" /></td>
-                                                    <td><input type="text" class="form-control" name="FamilyDetails[@index].dob" id="dob" value="@famItem.dob" /></td>
-                                                    <td>
-                                                        <input type="text" class="form-control" name="id[]" id="id" value="@famItem.id" />
-                                                    </td>
-                                                    <td><input type="text" class="form-control" name="FamilyDetails[@index].occupation" id="occupation" value="@famItem.occupation" /></td>
-                                                </tr>
-                                                index++;
-                                            }
-                                        }
-                                        else
-                                        {
-
-                                            <tr>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[0].relationship" id="relationship" value="Father" /></td>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[0].name" id="name" value="" /></td>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[0].dob" id="dob" value="" /></td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="id[]" id="id" value="" />
-                                                </td>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[0].occupation" id="occupation" value="" /></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[1].relationship" id="relationship" value="Mother" /></td>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[1].name" id="name" value="" /></td>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[1].dob" id="dob" value="" /></td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="id[]" id="id" value="" />
-                                                </td>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[1].occupation" id="occupation" value="" /></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[2].relationship" id="relationship" value="Grandfather" /></td>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[2].name" id="name" value="" /></td>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[2].dob" id="dob" value="" /></td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="id[]" id="id" value="" />
-                                                </td>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[2].occupation" id="occupation" value="" /></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[3].relationship" id="relationship" value="Spouse" /></td>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[3].name" id="name" value="" /></td>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[3].dob" id="dob" value="" /></td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="id[]" id="id" value="" />
-                                                </td>
-                                                <td><input type="text" class="form-control" name="FamilyDetails[3].occupation" id="occupation" value="" /></td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Education Details</label>
-                        <div class="col-md-10">
-                            <div class="table-wrapper">
-                                @*<div class="table-title">
-                                        <div class="row">
-                                            <div class="col-sm-8"><h4>Family Details</h4></div>
-
-                                        </div>
-                                    </div>*@
-
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Level</th>
-                                            <th>Degree</th>
-                                            <th>Institution</th>
-                                            <th>Percentage/CGPA</th>
-                                            <th>Divistion</th>
-                                            <th>Passed Year</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><input type="text" class="form-control" disabled="disabled" value="Masters" /></td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                            <td>
-                                                <input type="text" class="form-control" value="" />
-                                            </td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="text" class="form-control" value="Bachelor" /></td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                            <td>
-                                                <input type="text" class="form-control" value="" />
-                                            </td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="text" class="form-control" value="Intermediate" /></td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                            <td>
-                                                <input type="text" class="form-control" value="" />
-                                            </td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="text" class="form-control" value="Class10" /></td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                            <td>
-                                                <input type="text" class="form-control" value="" />
-                                            </td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                            <td><input type="text" class="form-control" value="" /></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Experience Details</label>
-                        <div class="col-md-10">
-                            <table class="table table-bordered small-text" id="tb">
+                            <table class="table table-bordered">
                                 <thead>
-                                    <tr class="tr-header">
-                                        <th>Name of Employer</th>
-                                        <th>Employee Status</th>
-                                        <th>Duration From</th>
-                                        <th>Duration To</th>
-                                        <th>Tenure</th>
-                                        <th>
-                                            <a href="javascript:void(0);" style="font-size:18px;" id="addMore" title="Add More Person"><span class="glyphicon glyphicon-plus"></span></a>
-                                        </th>
+                                    <tr>
+                                        <th>Relationship</th>
+                                        <th>Name</th>
+                                        <th>Dob</th>
+                                        <th>Age</th>
+                                        <th>Occupation</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (Model.Experiences != null && Model.Experiences.Count > 0)
-                                    {
-                                        int index = 0;
-                                        foreach (var item in Model.Experiences)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <input type="hidden" name="Experiences[@index].id" value="@item.id" />
-                                                    <input type="text" name="Experiences[@index].nameOfEmployer" value="@item.nameOfEmployer" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <select name="Experiences[@index].empStatus" class="form-control">
-                                                        <option value="">Select</option>
-                                                        <option value="Engineer" @(item.empStatus == "Engineer" ? "selected='selected'" : "")>Engineer</option>
-                                                        <option value="Accountant" @(item.empStatus == "Accountant" ? "selected='selected'" : "")>Accountant</option>
-                                                    </select>
-                                                </td>
-                                                <td><input type="text" name="Experiences[@index].durationFrom" value="@item.durationFrom" class="form-control"></td>
-                                                <td><input type="text" name="Experiences[@index].durationTo" value="@item.durationTo" class="form-control"></td>
-                                                <td><input type="text" name="Experiences[@index].tenure" value="@item.tenure" class="form-control" /></td>
-                                                <td><a href='javascript:void(0);' class='remove'><span class='glyphicon glyphicon-remove'></span></a></td>
-                                            </tr>
-                                            index++;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <tr>
-                                            <td>
-                                                <input type="hidden" name="Experiences[0].id" value="0" />
-                                                <input type="text" name="Experiences[0].nameOfEmployer" class="form-control">
-                                            </td>
-                                            <td>
-                                                <select name="Experiences[0].empStatus" class="form-control">
-                                                    <option value="" selected="selected">Select</option>
-                                                    <option value="Engineer">Engineer</option>
-                                                    <option value="Accountant">Accountant</option>
-                                                </select>
-                                            </td>
-                                            <td><input type="text" name="Experiences[0].durationFrom" class="form-control"></td>
-                                            <td><input type="text" name="Experiences[0].durationTo" class="form-control"></td>
-                                            <td><input type="text" name="Experiences[0].tenure" class="form-control" /></td>
-                                            <td><a href='javascript:void(0);' class='remove'><span class='glyphicon glyphicon-remove'></span></a></td>
-                                        </tr>
-                                    }
+
+                                    @if (Model.FamilyDetails != null)
+                                                                                                                {
+                                                                                                                    int index = 0;
+                                                                                                                    foreach (var famItem in Model.FamilyDetails)
+                                                                                                                    {
+                                    <tr>
+                                        <td>
+                                            <input type="hidden" name="FamilyDetails[@index].id" value="@famItem.id" />
+                                            <input type="text" class="form-control" name="FamilyDetails[@index].relationship" id="relationship" value="@famItem.relationship" />
+                                        </td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[@index].name" id="name" value="@famItem.name" /></td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[@index].dob" id="dob" value="@famItem.dob" /></td>
+                                        <td>
+                                            <input type="text" class="form-control" name="id[]" id="id" value="@famItem.id" />
+                                        </td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[@index].occupation" id="occupation" value="@famItem.occupation" /></td>
+                                    </tr>
+                                                                                                                        index++;
+                                                                                                                    }
+                                                                                                                }
+                                                                                                                else
+                                                                                                                {
+
+                                    <tr>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[0].relationship" id="relationship" value="Father" /></td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[0].name" id="name" value="" /></td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[0].dob" id="dob" value="" /></td>
+                                        <td>
+                                            <input type="text" class="form-control" name="id[]" id="id" value="" />
+                                        </td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[0].occupation" id="occupation" value="" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[1].relationship" id="relationship" value="Mother" /></td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[1].name" id="name" value="" /></td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[1].dob" id="dob" value="" /></td>
+                                        <td>
+                                            <input type="text" class="form-control" name="id[]" id="id" value="" />
+                                        </td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[1].occupation" id="occupation" value="" /></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[2].relationship" id="relationship" value="Grandfather" /></td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[2].name" id="name" value="" /></td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[2].dob" id="dob" value="" /></td>
+                                        <td>
+                                            <input type="text" class="form-control" name="id[]" id="id" value="" />
+                                        </td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[2].occupation" id="occupation" value="" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[3].relationship" id="relationship" value="Spouse" /></td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[3].name" id="name" value="" /></td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[3].dob" id="dob" value="" /></td>
+                                        <td>
+                                            <input type="text" class="form-control" name="id[]" id="id" value="" />
+                                        </td>
+                                        <td><input type="text" class="form-control" name="FamilyDetails[3].occupation" id="occupation" value="" /></td>
+                                    </tr>
+                                                                                                                }
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value=@(Model.id == 0?"Create":"Save") class="btn btn-default" />
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Education Details</label>
+                    <div class="col-md-10">
+                        <div class="table-wrapper">
+                            @*<div class="table-title">
+                                    <div class="row">
+                                        <div class="col-sm-8"><h4>Family Details</h4></div>
+
+                                    </div>
+                                </div>*@
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Level</th>
+                                        <th>Degree</th>
+                                        <th>Institution</th>
+                                        <th>Percentage/CGPA</th>
+                                        <th>Divistion</th>
+                                        <th>Passed Year</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" class="form-control" disabled="disabled" value="Masters" /></td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                        <td>
+                                            <input type="text" class="form-control" value="" />
+                                        </td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" class="form-control" value="Bachelor" /></td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                        <td>
+                                            <input type="text" class="form-control" value="" />
+                                        </td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" class="form-control" value="Intermediate" /></td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                        <td>
+                                            <input type="text" class="form-control" value="" />
+                                        </td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" class="form-control" value="Class10" /></td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                        <td>
+                                            <input type="text" class="form-control" value="" />
+                                        </td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                        <td><input type="text" class="form-control" value="" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                }
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Experience Details</label>
+                    <div class="col-md-10">
+                        <table class="table table-bordered small-text" id="tb">
+                            <thead>
+                                <tr class="tr-header">
+                                    <th>Name of Employer</th>
+                                    <th>Employee Status</th>
+                                    <th>Duration From</th>
+                                    <th>Duration To</th>
+                                    <th>Tenure</th>
+                                    <th>
+                                        <a href="javascript:void(0);" style="font-size:18px;" id="addMore" title="Add More Person"><span class="glyphicon glyphicon-plus"></span></a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Experiences != null && Model.Experiences.Count > 0)
+                                                                                                    {
+                                                                                                        int index = 0;
+                                                                                                        foreach (var item in Model.Experiences)
+                                                                                                        {
+                                <tr>
+                                    <td>
+                                        <input type="hidden" name="Experiences[@index].id" value="@item.id" />
+                                        <input type="text" name="Experiences[@index].nameOfEmployer" value="@item.nameOfEmployer" class="form-control">
+                                    </td>
+                                    <td>
+                                        <select name="Experiences[@index].empStatus" class="form-control">
+                                            <option value="">Select</option>
+                                            <option value="Engineer" @(item.empStatus == "Engineer" ? "selected='selected'" : "")>Engineer</option>
+                                            <option value="Accountant" @(item.empStatus == "Accountant" ? "selected='selected'" : "")>Accountant</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="Experiences[@index].durationFrom" value="@item.durationFrom" class="form-control"></td>
+                                    <td><input type="text" name="Experiences[@index].durationTo" value="@item.durationTo" class="form-control"></td>
+                                    <td><input type="text" name="Experiences[@index].tenure" value="@item.tenure" class="form-control" /></td>
+                                    <td><a href='javascript:void(0);' class='remove'><span class='glyphicon glyphicon-remove'></span></a></td>
+                                </tr>
+                                                                                                            index++;
+                                                                                                        }
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                <tr>
+                                    <td>
+                                        <input type="hidden" name="Experiences[0].id" value="0" />
+                                        <input type="text" name="Experiences[0].nameOfEmployer" class="form-control">
+                                    </td>
+                                    <td>
+                                        <select name="Experiences[0].empStatus" class="form-control">
+                                            <option value="" selected="selected">Select</option>
+                                            <option value="Engineer">Engineer</option>
+                                            <option value="Accountant">Accountant</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="Experiences[0].durationFrom" class="form-control"></td>
+                                    <td><input type="text" name="Experiences[0].durationTo" class="form-control"></td>
+                                    <td><input type="text" name="Experiences[0].tenure" class="form-control" /></td>
+                                    <td><a href='javascript:void(0);' class='remove'><span class='glyphicon glyphicon-remove'></span></a></td>
+                                </tr>
+                                                                                                    }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value=@(Model.id == 0?"Create":"Save") class="btn btn-default" />
+                    </div>
+                </div>
+                                                }
             </div>
         </div>
     </div>
@@ -484,7 +482,7 @@
             $(document).on('click', '.remove', function () {
                 var trCount = $('#tb>tbody').find('tr').length;
                 var trIndex = $(this).closest("tr").index();
-                if (trIndex > 1 && trIndex == (trCount-1)) {
+                if (trIndex >= 1 && trIndex == (trCount - 1)) {
                     $(this).closest("tr").remove();
                 } else {
                     alert("Sorry!! Can't remove this row!");

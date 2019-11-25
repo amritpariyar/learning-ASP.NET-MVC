@@ -1,4 +1,5 @@
-﻿using SOIT.Data.ViewModels;
+﻿using SOIT.Data;
+using SOIT.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,41 @@ namespace SOIT.Controllers
 {
     public class DashboardController : Controller
     {
-
+        SOITEntities dbContext;
+        public DashboardController()
+        {
+            dbContext = new SOITEntities();
+        }
         // GET: Dashboard
        public ActionResult Index()
         {
             
             return View();
             
+        }
+
+        public JsonResult LoadProvince()
+        {
+            var province = dbContext.Province.Select(a => new { a.Id, a.Name }).ToList();
+            return Json(province, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult LoadDistrict(int? ProvinceId)
+        {
+            var district = dbContext.DISTRICT.Select(a => new { a.DISTRICTID, a.DISTRICTNAME,a.ProvinenceID }).ToList();
+            if (ProvinceId.HasValue)
+            {
+                district = district.Where(a => a.ProvinenceID == ProvinceId).ToList();
+            }
+            return Json(district, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult LoadLocalState(int? DistrictId)
+        {
+            var vdc = dbContext.VDC.Select(a => new { a.DISTRICTID, a.VDCID, a.VDCNAME }).ToList();
+            if (DistrictId.HasValue)
+            {
+                vdc = vdc.Where(a => a.DISTRICTID == DistrictId).ToList();
+            }
+            return Json(vdc, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ChartReport()
@@ -27,6 +56,7 @@ namespace SOIT.Controllers
         {
             List<int> test1 = new List<int>();
             test1.Add(1000);
+
             test1.Add(2000);
             test1.Add(2500);
             test1.Add(2000);
