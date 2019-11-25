@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "EmployeeRecord";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    fieldset {
+        padding: 5px;
+        border: 1px solid #a6a6a6;
+        border-radius: 10px;
+        margin: 3px;
+    }
+
+    legend {
+        width: 10%;
+        font-size: 14px;
+    }
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">Employee Records</div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <fieldset>
+                <legend>Options</legend>
+                <label>Designation:</label>
+                <select id="designation">
+                    <option>All</option>
+                </select>
+            </fieldset>
+            <fieldset>
+                <table id="reportTable" class="table table-striped table-bordered" style="width:100%"></table>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var loadRecordData = function () {
+            return $.ajax({
+                url: '/Reports/GetEmployeeRecordData',
+                method: 'GET',
+                cache: false
+            });
+        }
+        $.when(loadRecordData()).then(function (recData) {
+            var dataSet = [];
+            var columns = [
+                { title: "" },
+                { title: "Name" },
+                { title: "Gender" },
+                { title: "Mobile" },
+                { title: "Address" },
+                { title: "Email" },
+                { title: "Emergency Contact" },
+            ];
+            $.each(recData, function (i, vl) {
+                var temp = [];
+                temp.push("");
+                temp.push(vl.fullName);
+                temp.push(vl.gender);
+                temp.push(vl.mobile);
+                temp.push(vl.pAddress);
+                temp.push(vl.email);
+                temp.push(vl.emergencyContactNo);
+                dataSet.push(temp);
+            });
+
+            //first clear previous datatable object
+            if ($.fn.DataTable.isDataTable('#reportTable')) {
+                window.reportTable.clear();
+                window.reportTable.destroy();
+            }
+            //append footer
+            $('#reportTable').append('<tfoot>' +
+                '    <tr>                ' +
+                '        <th></th>       ' +
+                '        <th></th>       ' +
+                '        <th></th>       ' +
+                '        <th></th>       ' +
+                '        <th></th>       ' +
+                '        <th>Total:</th> ' +
+                '        <th></th>       ' +
+                '    </tr>               ' +
+                '</tfoot>');
+            //create datatable for reportTable and assign to window object
+            window.reportTable = $('#reportTable').DataTable({
+                columns: columns,
+                data: dataSet,
+                "orderClasses": false,
+                //"dom": '<"top"><"btnst"B>rt<"bottom"li<""S>><"clear">',
+                "dom": '<B<t>ip>',
+                "autoWidth": false,
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0
+                }],
+                select: {
+                    style: 'os',
+                    selector: 'td:first-child'
+                },
+                order: [[1, 'asc']],
+                "pageLength": 50,
+                "scrollY": "54vh",
+                "scrollX": true,
+                "scrollCollapse": true,
+                "paging": false,
+                buttons: [
+                    {
+                        text: 'Excel',
+                        extend: 'excelHtml5',
+                        title: '<h3 style="text-align:center">Employee Report</h3>',
+                        footer: true,
+                        //messageTop: pageHead,
+                        //exportOptions: { orthogonal: 'export', messageTop: pageHead }
+                    }, {
+                        extend: 'print',
+                        text: 'Print',
+                        title: '<h3 style="text-align:center"><u>Employee Report</u></h3>',
+                        footer: true,
+                        customize: function (win) {
+                            //$(win.document.body).prepend(pageHead);
+                        },
+                        exportOptions: {
+                            stripHtml: false,
+                            format: {
+                                body: function (inner, coldex, rowdex) {
+                                    if (inner.length == 0) return inner;
+                                    var el = $.parseHTML(inner);
+                                    var result = '';
+                                    if (inner != '') result = inner;
+                                    $.each(el, function (index, item) {
+                                        if (item.nodeName == '#text') result = item.textContent;
+                                        else result = item.innerText;
+                                    });
+                                    return result;
+                                },
+                                footer: function (inner, coldex, rowdex) {
+                                    return rowdex.innerText;
+                                }
+                            }
+                        }
+                    },
+                    {
+                        text: 'Pdf',
+                        extend: 'pdfHtml5',
+                        title: 'Employee Report',
+                        download: 'open',
+                    }
+                ],
+                //"initComplete": function (settings, json) {
+                //    $($('.btns').find('a')[0]).addClass('btn');
+                //    $($('.btns').find('a')[0]).prepend('<img src="/Content/themes/images/excel.png" width="20" height="20">&nbsp;')
+                //    $($('.btns').find('a')[1]).addClass('btn');
+                //    $($('.btns').find('a')[1]).prepend('<img src="/Content/themes/images/print.png" width="20" height="20">&nbsp;')
+                //    $($('.btns').find('a')[2]).addClass('btn');
+                //    $($('.btns').find('a')[2]).prepend('<img src="/Content/themes/images/pdf.png" width="20" height="20">&nbsp;')
+                //},
+                //"footerCallback": function (row, data, start, end, display) {
+                //    var api = this.api(), data;
+                //    $(api.column(2).footer()).html('');
+                //    $(api.column(6).footer()).html('NRs ' + totalAmount);
+                //}
+            });
+        })
+    </script>
+}
