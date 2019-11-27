@@ -13,13 +13,22 @@ namespace SOIT.Controllers
         [HttpGet]
         public HttpResponseMessage GetOrganizationInformation()
         {
-            var detail = new
+            try
             {
-                Name = "Civil",
-                Address = "Kathmandu"
-            };
+                var detail = new
+                {
+                    Name = "Civil",
+                    Address = "Kathmandu"
+                };
 
-            return Request.CreateResponse(HttpStatusCode.OK, detail, new JsonMediaTypeFormatter(), "application/json");
+                return Request.CreateResponse(HttpStatusCode.OK, detail, new JsonMediaTypeFormatter(), "application/json");
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.Conflict, "Data Conflict occured", new JsonMediaTypeFormatter(), "application/json");
+                //throw;
+            }
+            
         }
     }
 }

@@ -19,6 +19,8 @@ namespace SOIT.Controllers
         {
             return View();
         }
+
+        [Authorize(Roles ="HR")]
         public ActionResult EmployeeRecord()
         {
             return View();
@@ -26,9 +28,12 @@ namespace SOIT.Controllers
 
         public JsonResult GetEmployeeRecordData()
         {
+            var employ = dbContext.employee.Select(a => new { a.id, a.fullName }).ToList();
+
             var employees = (from emp in dbContext.employee
                              select new
                              {
+                                 emp.id,
                                  emp.fullName,
                                  emp.gender,
                                  emp.email,

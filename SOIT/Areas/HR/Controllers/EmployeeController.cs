@@ -21,7 +21,7 @@ namespace SOIT.Areas.HR.Controllers
         public ActionResult Index()
         {
 
-            List<employee> empdata = dbcontext.employee.ToList();
+            List<employee> empdata = dbcontext.employee.Where(a=>a.createdBy==User.Identity.Name).ToList();
             return View(empdata);
         }
 
