@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -163,14 +164,16 @@ namespace SOIT.Controllers
                     await this.UserManager.AddToRoleAsync(user.Id, model.RoleName);
                     //Ends Here
 
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    //prevent auto login after user create success.
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    SendMyEmail(user.Id, "Confirm your account", 
+                        "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -179,6 +182,34 @@ namespace SOIT.Controllers
             ViewBag.RoleName = new SelectList(context.Roles.ToList(), "Name", "Name");
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private void SendMyEmail(string id, string emailSubject, string emailbody)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+
+                mail.From = new MailAddress("senderemail@gmail.com");
+                mail.To.Add("receiveremail@gmail.com");
+                mail.Subject = emailSubject;
+                mail.IsBodyHtml = true;
+                mail.Body = emailbody;
+
+                using (SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    SmtpServer.UseDefaultCredentials = false;
+                    SmtpServer.EnableSsl = true;
+                    SmtpServer.Credentials = new System.Net.NetworkCredential("senderemail@gmail.com", "senderpassword");
+                    SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    SmtpServer.Send(mail);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         //

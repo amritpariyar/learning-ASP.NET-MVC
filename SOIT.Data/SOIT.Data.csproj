@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="ViewModels\ChartDataViewModel.cs" />
     <Compile Include="ViewModels\EmployeeFamilyViewModel.cs" />
+    <Compile Include="ViewModels\PendingAccountsViewModel.cs" />
     <Compile Include="ViewModels\TaskViewModel.cs" />
     <Compile Include="ViewModels\UserQualificationViewModel.cs" />
     <Compile Include="ViewModels\UserWithRolesViewModel.cs" />
