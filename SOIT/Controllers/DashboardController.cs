@@ -3,7 +3,6 @@ using SOIT.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,7 +11,6 @@ namespace SOIT.Controllers
     public class DashboardController : Controller
     {
         SOITEntities dbContext;
-        protected string password = "Banijya@123";
         public DashboardController()
         {
             dbContext = new SOITEntities();
@@ -20,9 +18,10 @@ namespace SOIT.Controllers
         // GET: Dashboard
        public ActionResult Index()
         {
+            
             return View();
+            
         }
-        
 
         public JsonResult LoadProvince()
         {

@@ -206,7 +206,6 @@
     <Compile Include="Controllers\testController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Filter\RequestFilterAttribute.cs" />
-    <Compile Include="Filter\SendEmail.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1288,7 +1287,6 @@
     <Content Include="Areas\HR\Views\Employee\Create.cshtml" />
     <Content Include="Plugins\DataTables\Buttons-1.6.1\css\common.scss" />
     <Content Include="Plugins\DataTables\Buttons-1.6.1\css\mixins.scss" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
