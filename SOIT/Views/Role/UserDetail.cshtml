@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "UserDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<string> roles = ViewBag.roles;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">User Role Manage</div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-7">
+                <label for="Users">Users</label>
+                @Html.DropDownList("Users","Select User")
+            </div>
+            <div class="col-md-5">
+                <dl class="rolelist dl-horizontal">
+                    @foreach(var item in roles)
+                    {
+                        <dt><input type="checkbox" name="roles" class="roleclass @item.Replace(' ','_')" value="@item" /></dt>
+                        <dd>@item</dd>
+                    }
+                    <dt></dt>
+                    <dd><button type="button" class="btn btn-sm btn-primary" id="update">Update</button></dd>
+                </dl>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $('#Users').on('change',function(){
+            var id = $(this).val();
+            if (id != "") {
+                $('.roleclass').removeAttr('checked');
+                $.ajax({
+                    url: '/Role/GetRolesWithUser?Id=' + id,
+                    method: 'POST',
+                    cache: false,
+                    success: function (data) {
+                        console.log(data);
+                        var dtdd = '';
+                        $.each(data, function (i, v) {
+                            $('.' + v.replace(' ', '_')).attr("checked", "checked");
+                        })
+                    }
+                })
+            }
+        })
+
+        $('#update').on('click', function () {
+            debugger;
+            var id = $('#Users').val();
+            if (id != "") {
+                var roles = [];
+                var checkedRoles = $('.roleclass');
+                $.each(checkedRoles, function (i, v) {
+                    if ($(v).is(':checked')) {
+                        roles.push($(v).val());
+                    }
+                })
+                var postData = {
+                    userid: $('#Users :selected').val(),
+                    roles:roles
+                }
+                $.ajax({
+                    url: '/Role/UpdateRolesWithUser',
+                    method: 'POST',
+                    data: postData,
+                    cache: false,
+                    success: function (data) {
+                        console.log(data);
+                        alert(data);
+                    }
+                })
+            }
+        })
+    </script>
+    }

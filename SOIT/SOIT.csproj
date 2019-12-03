@@ -1376,6 +1376,7 @@
     <Content Include="Views\MultiLanguage\Index.cshtml" />
     <Content Include="Views\Dashboard\ChartReport.cshtml" />
     <Content Include="Views\Reports\EmployeeRecord.cshtml" />
+    <Content Include="Views\Role\UserDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
