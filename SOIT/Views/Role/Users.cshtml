@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SOIT.Models.ViewModels.UserWithRolesViewModel>
+﻿@model IEnumerable<SOIT.Data.ViewModels.UserWithRolesViewModel>
 @{
     ViewBag.Title = "Users";
     int count = 0;
@@ -27,7 +27,7 @@
                         <td>@item.Email</td>
                         <td>@item.RoleNames</td>
                         <td>
-                            <a href="/UserProfile/UserDetail?Id=@item.UserId">View Detail</a>
+                            <a href="/Role/UserDetail?Id=@item.UserId">View Detail</a>
                         </td>
                     </tr>
                 }

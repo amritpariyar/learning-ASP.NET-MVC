@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace SOIT.Controllers
 {
-    public class testController : Controller
+    public class MultiLanguageController : Controller
     {
         // GET: test
         public ActionResult Index()

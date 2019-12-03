@@ -6,7 +6,16 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <div class="panel-title">Test Page</div>
+        <div class="panel-title">
+            Multi Keyboard Type
+            <div class="pull-right">
+                <input type="radio" id="traditional" name="typeOption" value="traditional" checked="checked" />
+                <label for="traditional">Traditional</label>
+                <input type="radio" id="roman" name="typeOption" value="roman" />
+                <label for="roman">Roman</label>
+            </div>
+        </div>
+
     </div>
     <div class="panel-body">
         <div class="form-group">
@@ -24,21 +33,13 @@
 @section scripts{
     <script src="~/Scripts/npDef.js"></script>
     <script src="~/Scripts/npChar.js"></script>
+    
     <script language="javascript">
         var newSession = true;
         var isCurlyOn = false;
         var isSquareOn = false;
 
-
-        //function beginConvert(e) {
-        //    e = (window.event) ? window.event : e;
-        //    var keycode_;
-        //    if (e.keyCode) keycode_ = e.keyCode; else keycode_ = e.charCode;
-        //    if (keycode_ == 13) moveUp(true); else convert();
-        //}
-
-
-        function convertMe(data,npElement) {
+        function convertMe(data, npElement) {
             if ((data.length > 60 && data.charCodeAt(data.length - 1) == 32)) {
                 moveUp();
                 return;
@@ -58,10 +59,40 @@
 
     </script>
     <script>
+        var enableinput = function () {
+            var n = $('.np');
+            n.each((i, v) => { var id = $(v).attr('id'); $a.enable(id); });
+        }
+        var disableinput = function () {
+            var n = $('.np');
+            n.each((i, v) => { var id = $(v).attr('id'); $a.disable(id); });
+        }
+        var toogleKeyboard = function () {
+            var checkedKeyboard = $('input[name=typeOption]:checked').val();
+            if (checkedKeyboard == 'roman') {
+                enableinput();
+            } else {
+                disableinput();
+            }
+        }
+        $(document).ready(function () {
+            toogleKeyboard();
+        })
+        $('input[name=typeOption]').on('change', function () {
+            toogleKeyboard();
+        })
+        $(".np").on('keyup blur', function () {
+            var checkedKeyboard = $('input[name=typeOption]:checked').val();
+            if (checkedKeyboard == "traditional") {
+                var string = $(this).val();
+                console.log(string);
+                var converted = _(string);
+                $(this).val(converted);
+            }
+        });
         $('.en').on('keyup keydown', function () {
             var el_char = $(this).val();
             var el_id = $(this)[0].id;
-            //el_id = el_id.substring(0, (el_id.length - 2));
             var npElement = el_id + 'Np';
             var convertNp = convertMe(el_char, npElement);
         })

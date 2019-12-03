@@ -72,6 +72,22 @@ namespace SOIT.Controllers
                                   });
             return View(usersWithRoles);
         }
+
+        public ActionResult UserDetail(string userid)
+        {
+            var usersWithRoles = (from user in context.Users
+                                  select new
+                                  {
+                                      UserId = user.Id,
+                                      Username = user.UserName,
+                                      Email = user.Email,
+                                      RoleNames = (from userRole in user.Roles
+                                                   join role in context.Roles on userRole.RoleId
+                                                   equals role.Id
+                                                   select role.Name).ToList()
+                                  }).ToList();
+            return View();
+        }
         #endregion
     }
 }

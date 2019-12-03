@@ -203,7 +203,7 @@
     <Compile Include="Controllers\ProvinceController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
-    <Compile Include="Controllers\testController.cs" />
+    <Compile Include="Controllers\MultiLanguageController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Filter\RequestFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -1288,6 +1288,7 @@
     <Content Include="Plugins\DataTables\Buttons-1.6.1\css\common.scss" />
     <Content Include="Plugins\DataTables\Buttons-1.6.1\css\mixins.scss" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\ime.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -1300,6 +1301,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\npChar.js" />
     <Content Include="Scripts\npDef.js" />
+    <Content Include="Scripts\traditionalLayout.js" />
     <Content Include="Theme\css\font-awesome.css" />
     <Content Include="Theme\css\font-awesome.min.css" />
     <Content Include="Theme\css\metisMenu.css" />
@@ -1371,7 +1373,7 @@
     <Content Include="Views\UserProfile\Index.cshtml" />
     <Content Include="Views\UserProfile\Create.cshtml" />
     <Content Include="Views\Role\Users.cshtml" />
-    <Content Include="Views\test\Index.cshtml" />
+    <Content Include="Views\MultiLanguage\Index.cshtml" />
     <Content Include="Views\Dashboard\ChartReport.cshtml" />
     <Content Include="Views\Reports\EmployeeRecord.cshtml" />
   </ItemGroup>
