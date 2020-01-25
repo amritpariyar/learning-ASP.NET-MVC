@@ -1,0 +1,49 @@
+﻿@model IEnumerable<SOIT.Areas.HR.Controllers.QuestionModel>
+@{
+    ViewBag.Title = "MultipleQuestion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MultipleQuestion</h2>
+
+@using (Html.BeginForm("SaveQuestionAnswer", "Test", FormMethod.Post))
+{
+    for (int i = 0; i < 5; i++)
+    {
+        <div class="question" style="display: block" runat="server">
+            <h4>@i . Question</h4>
+            <ul>
+                @for (int p = 0; p < 4; p++)
+                {
+                    <li class="" style="display: block; margin-bottom:5px" runat="server">
+                        <input type="checkbox" id="questionAnswer_@i _@p" name="questionAnswer" value="@i _@p" />
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    <input type="submit" id="submit" value="Submit" />
+    @*var i = 1;
+        foreach (var item in Model.randomSample)
+        {
+            var possibleAnswers = @item.possibleAnswers.Split(',');
+
+            <div class="question" style="display: block" id=@item.Id runat="server">
+                <h4>@i . @item.question</h4>
+                <ul runat="server">
+                    @foreach (var answer in possibleAnswers)
+                    {
+                        <li class="btn btn-primary" style="display: block; margin-bottom:5px" runat="server">
+
+                        <input type="checkbox" id="Q_@i" name="QuestionAnswerModel[]"
+                        </li>
+                    }
+                </ul>
+            </div>
+            i++;
+        }*@
+
+}
+
+
+

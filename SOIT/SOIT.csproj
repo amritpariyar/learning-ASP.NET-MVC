@@ -1287,6 +1287,7 @@
     <Content Include="Areas\HR\Views\Employee\Create.cshtml" />
     <Content Include="Plugins\DataTables\Buttons-1.6.1\css\common.scss" />
     <Content Include="Plugins\DataTables\Buttons-1.6.1\css\mixins.scss" />
+    <Content Include="Areas\HR\Views\Test\MultipleQuestion.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\ime.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
